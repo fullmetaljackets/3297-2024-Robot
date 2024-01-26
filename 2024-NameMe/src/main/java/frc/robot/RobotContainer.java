@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -44,6 +46,8 @@ public class RobotContainer {
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     
+    private final SendableChooser<Command> autoChooser;
+
     /* Limelight Values */
 
 
@@ -61,6 +65,9 @@ public class RobotContainer {
 
         // Configure the button bindings
         configureButtonBindings();
+
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
     /**
@@ -83,9 +90,11 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
         //return new exampleAuto(s_Swerve); 
 
-        return new PathPlannerAuto("Test 2");
+        // return new PathPlannerAuto("Test 2");
 
         // PathPlannerPath  path = PathPlannerPath.fromPathFile("Test path 1");
         // return AutoBuilder.followPath(path);
+
+        return autoChooser.getSelected();
     }
 }
