@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3712009344922642,
-      "y": 6.539609011421413
+      "x": 1.3763132980811417,
+      "y": 6.642067102316023
     },
-    "rotation": -132.5804907833437
+    "rotation": -130.21300087904999
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 1.0
           }
         },
         {
@@ -32,13 +32,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Turn"
+            "pathName": "GetNote 1"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "GetNote"
+            "waitTime": 0.2
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "GoToAmp"
+            "pathName": "GoToAmp 1"
           }
         },
         {
@@ -68,7 +68,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 1.0
           }
         },
         {
@@ -80,7 +80,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "GetNote2"
+            "pathName": "GetNote 2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
           }
         },
         {
@@ -92,7 +98,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "GoToAmp2"
+            "pathName": "GoToAmp 2"
           }
         },
         {
@@ -110,7 +116,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 1.0
           }
         },
         {
@@ -122,13 +128,43 @@
         {
           "type": "path",
           "data": {
-            "pathName": "GetNote3"
+            "pathName": "GetNote 3"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stopIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GoToAmp 3"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
           }
         },
         {
           "type": "named",
           "data": {
             "name": "shootAmp floor pickup"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
           }
         }
       ]

@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.785797210012499,
-        "y": 8.093345904205933
+        "x": 1.329669568430046,
+        "y": 6.595423372664927
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7973922614511895,
-        "y": 7.6179487952196245
+        "x": 1.3669845521527597,
+        "y": 6.847299512783615
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8785576215220225,
-        "y": 6.713534783001769
+        "x": 1.4602720114531138,
+        "y": 7.005888193597342
       },
       "prevControl": {
-        "x": 2.8807316936667773,
-        "y": 6.737449576594068
+        "x": 1.329669568430046,
+        "y": 6.9032719883621585
       },
       "nextControl": {
-        "x": 2.876383549377268,
-        "y": 6.68961998940947
+        "x": 1.608801812078531,
+        "y": 7.122590179806181
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.890152672960713,
-        "y": 5.681575204958319
+        "x": 2.421132842267521,
+        "y": 7.005888193597342
       },
       "prevControl": {
-        "x": 2.8785576215220225,
-        "y": 6.307707982647603
+        "x": 1.8800636141010556,
+        "y": 7.071173138136757
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,26 +46,26 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.2,
-      "rotationDegrees": 90.0,
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 180.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 6.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 88.53119928561418,
+    "rotation": 178.8766972859246,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "expreimets",
+  "folder": "Notes",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2900355744214311,
-        "y": 6.423658497034508
+        "x": 2.868912646914629,
+        "y": 5.905096173828712
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.290035574421432,
-        "y": 5.923658497034508
+        "x": 2.859583900986462,
+        "y": 6.19428729766981
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GetNote2 End"
     },
     {
       "anchor": {
-        "x": 8.270256540513081,
-        "y": 7.49040322939403
+        "x": 2.868912646914629,
+        "y": 6.670053340110987
       },
       "prevControl": {
-        "x": 8.200686231880939,
-        "y": 7.873039926870815
+        "x": 2.5970175004760376,
+        "y": 6.546464637191006
       },
       "nextControl": {
-        "x": 8.338736093659708,
-        "y": 7.113765687087578
+        "x": 3.074145057381024,
+        "y": 6.763340799408873
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.293446643390462,
-        "y": 0.9739843208499982
+        "x": 2.868912646914629,
+        "y": 7.668229154644433
       },
       "prevControl": {
-        "x": 8.2470664376357,
-        "y": 1.7160676129261867
+        "x": 2.8782413928469004,
+        "y": 7.257764333714793
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Amp2 end"
     }
   ],
   "rotationTargets": [
@@ -51,7 +51,19 @@
       "rotateFast": false
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 1.5,
+      "maxWaypointRelativePos": 2.0,
+      "constraints": {
+        "maxVelocity": 3.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 1000.0,
+        "maxAngularAcceleration": 1400.0
+      }
+    }
+  ],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 6.0,
@@ -61,11 +73,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0,
+    "rotation": -88.8542371615729,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "expreimets",
+  "folder": "Amps",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

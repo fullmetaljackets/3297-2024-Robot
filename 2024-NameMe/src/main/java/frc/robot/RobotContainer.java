@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
@@ -53,6 +55,12 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        NamedCommands.registerCommand("shootSpeaker", new PrintCommand("shootSpeaker"));
+        NamedCommands.registerCommand("shootAmp floor pickup", new PrintCommand("shootAmp floor pickup"));
+        NamedCommands.registerCommand("shootAmp feed", new PrintCommand("shootAmp feed"));
+        NamedCommands.registerCommand("startIntake", new PrintCommand("startIntake"));
+        NamedCommands.registerCommand("stopIntake", new PrintCommand("stopIntake"));
+
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -60,7 +68,9 @@ public class RobotContainer {
                 () -> Math.pow(-desiredspeed*driveStick.getRawAxis(translationAxis), 3),
                 () -> -desiredturnspeed*driveStick.getRawAxis(rotationAxis), 
                 () -> robotCentric.getAsBoolean()
+                
             )
+            
         );
 
         // Configure the button bindings
@@ -69,6 +79,7 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
+    
 
     /**
      * Use this method to define your button->command mappings. Buttons can be created by
@@ -97,4 +108,5 @@ public class RobotContainer {
 
         return autoChooser.getSelected();
     }
+
 }
