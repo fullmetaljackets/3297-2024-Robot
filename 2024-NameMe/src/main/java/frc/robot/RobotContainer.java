@@ -18,10 +18,10 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
-import frc.robot.commands.ElevatorControls;
-//import frc.robot.commands.*;
+import frc.robot.commands.*;
 import frc.robot.commands.swerve.TeleopSwerve;
 import frc.robot.subsystems.*;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -50,7 +50,8 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    public final Elevator m_Elevator = new Elevator();
+    public final Elevator s_Elevator = new Elevator();
+    private final Arm s_Arm = new Arm();
 
     private final SendableChooser<Command> autoChooser;
 
@@ -64,6 +65,12 @@ public class RobotContainer {
         NamedCommands.registerCommand("shootAmp feed", new PrintCommand("shootAmp feed"));
         NamedCommands.registerCommand("startIntake", new PrintCommand("startIntake"));
         NamedCommands.registerCommand("stopIntake", new PrintCommand("stopIntake"));
+
+        NamedCommands.registerCommand("elevatorRaise", new ElevatorRaise(0.25, s_Elevator));
+        NamedCommands.registerCommand("elevatorLower", new ElevatorLower(-0.25, s_Elevator));
+        NamedCommands.registerCommand("armExtend", new ArmExtend(s_Arm));
+        NamedCommands.registerCommand("armRetract", new ArmRetract(s_Arm));
+
 
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
@@ -94,12 +101,23 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        // robotCentric.
 
+        /* CoPilot Buttons */
+        // Elevator
         final JoystickButton elevatorRaise = new JoystickButton(copilotStick, XboxController.Button.kA.value);        
-        elevatorRaise.whileTrue(new ElevatorControls(0.25, m_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        elevatorRaise.whileTrue(new ElevatorRaise(0.25, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
         final JoystickButton elevatorLower = new JoystickButton(copilotStick, XboxController.Button.kB.value);        
-        elevatorLower.whileTrue(new ElevatorControls(-0.25, m_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        elevatorLower.whileTrue(new ElevatorLower(-0.25, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
+        // Arm
+        final JoystickButton armExtend = new JoystickButton(copilotStick, XboxController.Button.kY.value);        
+        armExtend.onTrue(new ArmExtend(s_Arm).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
+        final JoystickButton armRetract = new JoystickButton(copilotStick, XboxController.Button.kX.value);        
+        armRetract.onTrue(new ArmRetract(s_Arm).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
     }
 
     /**
