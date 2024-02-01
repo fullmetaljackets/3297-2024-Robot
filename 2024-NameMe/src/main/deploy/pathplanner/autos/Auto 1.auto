@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shootSpeaker"
+            "name": null
           }
         },
         {
@@ -26,7 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "startIntake"
+            "name": null
           }
         },
         {
@@ -44,7 +44,7 @@
         {
           "type": "named",
           "data": {
-            "name": "stopIntake"
+            "name": null
           }
         },
         {
@@ -62,7 +62,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shootAmp floor pickup"
+            "name": null
           }
         },
         {
@@ -74,7 +74,7 @@
         {
           "type": "named",
           "data": {
-            "name": "startIntake"
+            "name": null
           }
         },
         {
@@ -86,7 +86,7 @@
         {
           "type": "named",
           "data": {
-            "name": "stopIntake"
+            "name": null
           }
         },
         {
@@ -104,7 +104,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shootAmp floor pickup"
+            "name": null
           }
         },
         {
@@ -116,7 +116,7 @@
         {
           "type": "named",
           "data": {
-            "name": "startIntake"
+            "name": null
           }
         },
         {
@@ -128,7 +128,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shootAmp floor pickup"
+            "name": null
           }
         }
       ]

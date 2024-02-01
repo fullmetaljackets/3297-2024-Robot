@@ -16,7 +16,7 @@ public class Arm extends SubsystemBase {
     *
     */
     public Arm() {
-        armValve = new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 4, 5);
+        armValve = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 4, 5);
         addChild("armValve", armValve);
     }
 

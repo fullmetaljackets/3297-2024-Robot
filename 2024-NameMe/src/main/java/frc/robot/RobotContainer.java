@@ -2,13 +2,9 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,11 +12,21 @@ import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import frc.robot.autos.*;
-import frc.robot.commands.*;
+import frc.robot.commands.ArmExtend;
+import frc.robot.commands.ArmRetract;
+import frc.robot.commands.ElevatorLower;
+import frc.robot.commands.ElevatorRaise;
+import frc.robot.commands.FloorAmpIn;
+import frc.robot.commands.FloorAmpOut;
+import frc.robot.commands.FloorIntakeIn;
+import frc.robot.commands.FloorIntakeOut;
+import frc.robot.commands.groups.FloorIntakeClear;
+import frc.robot.commands.groups.FloorIntakeNote;
 import frc.robot.commands.swerve.TeleopSwerve;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.FloorIntake;
+import frc.robot.subsystems.Swerve;
 
 
 /**
@@ -52,7 +58,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     public final Elevator s_Elevator = new Elevator();
     private final Arm s_Arm = new Arm();
-
+    private final FloorIntake s_FloorIntake = new FloorIntake();
     private final SendableChooser<Command> autoChooser;
 
     /* Limelight Values */
@@ -61,15 +67,15 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         NamedCommands.registerCommand("shootSpeaker", new PrintCommand("shootSpeaker"));
-        NamedCommands.registerCommand("shootAmp floor pickup", new PrintCommand("shootAmp floor pickup"));
-        NamedCommands.registerCommand("shootAmp feed", new PrintCommand("shootAmp feed"));
-        NamedCommands.registerCommand("startIntake", new PrintCommand("startIntake"));
-        NamedCommands.registerCommand("stopIntake", new PrintCommand("stopIntake"));
 
+        NamedCommands.registerCommand("floorAmpShoot", new FloorAmpIn(0.25, s_FloorIntake));
+        NamedCommands.registerCommand("floorIntakeIn", new FloorIntakeIn(0.25, s_FloorIntake));
+        NamedCommands.registerCommand("floorIntakeOut", new FloorIntakeOut(-0.25, s_FloorIntake));
         NamedCommands.registerCommand("elevatorRaise", new ElevatorRaise(0.25, s_Elevator));
         NamedCommands.registerCommand("elevatorLower", new ElevatorLower(-0.25, s_Elevator));
         NamedCommands.registerCommand("armExtend", new ArmExtend(s_Arm));
         NamedCommands.registerCommand("armRetract", new ArmRetract(s_Arm));
+        NamedCommands.registerCommand("floorIntakeNote", new FloorIntakeNote(s_FloorIntake));
 
 
         s_Swerve.setDefaultCommand(
@@ -109,7 +115,7 @@ public class RobotContainer {
         elevatorRaise.whileTrue(new ElevatorRaise(0.25, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
         final JoystickButton elevatorLower = new JoystickButton(copilotStick, XboxController.Button.kB.value);        
-        elevatorLower.whileTrue(new ElevatorLower(-0.25, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        elevatorLower.whileTrue(new ElevatorLower(-0.25, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf)); 
 
         // Arm
         final JoystickButton armExtend = new JoystickButton(copilotStick, XboxController.Button.kY.value);        
@@ -117,6 +123,16 @@ public class RobotContainer {
 
         final JoystickButton armRetract = new JoystickButton(copilotStick, XboxController.Button.kX.value);        
         armRetract.onTrue(new ArmRetract(s_Arm).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
+        // Floor Intake
+        final JoystickButton floorIntakeNote =new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
+        floorIntakeNote.onTrue(new FloorIntakeNote(s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
+        final JoystickButton floorIntakeClear =new JoystickButton(driveStick, XboxController.Button.kLeftBumper.value);
+        floorIntakeClear.onTrue(new FloorIntakeClear(s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
+        final JoystickButton floorIntakeShoot =new JoystickButton(driveStick, XboxController.Axis.kRightTrigger.value);
+        floorIntakeShoot.onTrue(new FloorAmpOut(0.25,s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
 
     }
 
