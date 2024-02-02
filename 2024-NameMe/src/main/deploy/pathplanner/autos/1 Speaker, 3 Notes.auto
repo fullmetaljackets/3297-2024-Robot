@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3763132980811417,
-      "y": 6.642067102316023
+      "x": 1.2436553686666694,
+      "y": 6.632369422930936
     },
-    "rotation": -130.21300087904999
+    "rotation": -121.21840276434641
   },
   "command": {
     "type": "sequential",
@@ -24,21 +24,15 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "GetNote 1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
+            "name": "startIntake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GoToAmp 1"
+            "pathName": "GetNote 1 blue"
           }
         },
         {
@@ -50,7 +44,25 @@
         {
           "type": "named",
           "data": {
-            "name": "floorAmpShoot"
+            "name": "stopIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GoToAmp 1 blue"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootAmp floor pickup"
           }
         },
         {
@@ -60,21 +72,15 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "GetNote 2"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
+            "name": "startIntake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GoToAmp 2"
+            "pathName": "GetNote 2 blue"
           }
         },
         {
@@ -86,7 +92,25 @@
         {
           "type": "named",
           "data": {
-            "name": "floorAmpShoot"
+            "name": "stopIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GoToAmp 2 blue"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootAmp floor pickup"
           }
         },
         {
@@ -96,21 +120,15 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "GetNote 3"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
+            "name": "startIntake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GoToAmp 3"
+            "pathName": "GetNote 3 blue"
           }
         },
         {
@@ -122,7 +140,25 @@
         {
           "type": "named",
           "data": {
-            "name": "floorAmpShoot"
+            "name": "stopIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GoToAmp 3 blue"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootAmp floor pickup"
           }
         },
         {
@@ -134,6 +170,6 @@
       ]
     }
   },
-  "folder": "Finale",
+  "folder": null,
   "choreoAuto": false
 }
