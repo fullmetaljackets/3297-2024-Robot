@@ -35,7 +35,7 @@ public class Elevator extends SubsystemBase{
     *
     */
     public Elevator() {
-        elevatorMotor = new CANSparkMax(9, MotorType.kBrushless);
+        elevatorMotor = new CANSparkMax(10, MotorType.kBrushless);
         elevatorMotor.restoreFactoryDefaults();  
         elevatorMotor.setInverted(false);
         elevatorMotor.setIdleMode(IdleMode.kBrake);

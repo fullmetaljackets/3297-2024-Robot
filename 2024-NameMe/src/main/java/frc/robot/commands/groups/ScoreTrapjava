@@ -1,0 +1,30 @@
+package frc.robot.commands.groups;
+
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.AimAmp;
+import frc.robot.commands.ArmExtend;
+import frc.robot.commands.ElevatorLower;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Elevator;
+
+public class ScoreTrap extends SequentialCommandGroup {
+    public ScoreTrap(Shooter s_Shooter, Elevator s_Elevator){
+        addCommands(
+        //lower elevator
+        new ElevatorLower(0.25,s_Elevator),
+        new WaitCommand(1)
+        //shoot 
+        new Shooter1Out(1, s_Shooter),
+        new Shooter2Out(-.7, s_Shooter),
+        new WaitCommand(1),
+        new TriggerOut(.25,s_Shooter)
+        );
+ 
+
+    }
+    
+
+    
+}
+

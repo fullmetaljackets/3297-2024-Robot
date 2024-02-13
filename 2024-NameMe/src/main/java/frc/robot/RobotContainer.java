@@ -20,22 +20,23 @@ import frc.robot.commands.FloorAmpIn;
 import frc.robot.commands.FloorAmpOut;
 import frc.robot.commands.FloorIntakeIn;
 import frc.robot.commands.FloorIntakeOut;
-import frc.robot.commands.Shooter1Out;
-import frc.robot.commands.Shooter2Out;
 import frc.robot.commands.Shooter1In;
+import frc.robot.commands.Shooter1Out;
 import frc.robot.commands.Shooter2In;
+import frc.robot.commands.Shooter2Out;
 import frc.robot.commands.ShooterClose;
 import frc.robot.commands.ShooterOpen;
 import frc.robot.commands.TriggerIn;
 import frc.robot.commands.TriggerOut;
-import frc.robot.commands.groups.FloorIntakeClear;
 import frc.robot.commands.groups.FloorIntakeNote;
+import frc.robot.commands.groups.ShooterIn;
+import frc.robot.commands.groups.ShooterOut;
 import frc.robot.commands.swerve.TeleopSwerve;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.FloorIntake;
-import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Swerve;
 
 
 /**
@@ -53,8 +54,8 @@ public class RobotContainer {
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftX.value;
     private final int strafeAxis = XboxController.Axis.kLeftY.value;
-    private final int rotationAxis = XboxController.Axis.kRightX.value;
-    private final int zerogyro = XboxController.Button.kY.value;
+    private final int rotationAxis = XboxController.Axis.kLeftX.value;
+    private final int zerogyro = XboxController.Button.kStart.value;
     private final int robotcentric = XboxController.Button.kA.value;
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driveStick, zerogyro);
@@ -144,39 +145,36 @@ public class RobotContainer {
         final JoystickButton armRetract = new JoystickButton(copilotStick, XboxController.Button.kX.value);        
         armRetract.onTrue(new ArmRetract(s_Arm).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
-        // Shooter toggle
+        // Shooter
         final JoystickButton shooterToggle = new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
         shooterToggle.onTrue(new ShooterOpen(s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterToggle.onFalse(new ShooterClose(s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        
+        final JoystickButton floorIntakeShoot =new JoystickButton(copilotStick, XboxController.Axis.kRightTrigger.value);
+        floorIntakeShoot.onTrue(new FloorAmpOut(0.25,s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
  
         /* Pilot Buttons */
-        // Floor Intake
-        final JoystickButton floorIntakeNote =new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
-        floorIntakeNote.onTrue(new FloorIntakeNote(s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        // Floor Intake, Not Testing/Working, No Motors Yet 
+        //final JoystickButton floorIntakeNote =new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
+        //floorIntakeNote.onTrue(new FloorIntakeNote(s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
-        final JoystickButton floorIntakeClear =new JoystickButton(driveStick, XboxController.Button.kLeftBumper.value);
-        floorIntakeClear.onTrue(new FloorIntakeClear(s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-
-        final JoystickButton floorIntakeShoot =new JoystickButton(driveStick, XboxController.Axis.kRightTrigger.value);
-        floorIntakeShoot.onTrue(new FloorAmpOut(0.25,s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
+        //final JoystickButton floorIntakeClear =new JoystickButton(driveStick, XboxController.Button.kLeftBumper.value);
+        //floorIntakeClear.onTrue(new FloorIntakeClear(s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
         //Shooter
-        final JoystickButton shooterOut =new JoystickButton(driveStick, XboxController.Axis.kLeftTrigger.value);
-        shooterOut.onTrue(new Shooter1Out(0.25,s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
-        shooterOut.onTrue(new Shooter2Out(-0.25,s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
+        final JoystickButton shooterOut =new JoystickButton(driveStick, XboxController.Button.kLeftBumper.value);
+        shooterOut.onTrue(new ShooterOut(s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(2));
 
-        /*Change button!!!!
-        final JoystickButton shooterIn = new JoystickButton(driveStick, XboxController.Axis.kRightTrigger.value);
-        shooterIn.onTrue(new Shooter1In(-0.25,s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
-        shooterIn.onTrue(new Shooter2In(0.25, s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
-        */
+    
+        final JoystickButton shooterIn = new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
+        shooterIn.onTrue(new ShooterIn(s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(2));        
 
         //Trigger
         final JoystickButton triggerIn =new JoystickButton(driveStick, XboxController.Button.kX.value);
-        triggerIn.onTrue(new TriggerIn(-0.25, s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
+        triggerIn.onTrue(new TriggerIn(0.25, s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
 
-        final JoystickButton triggerOut = new JoystickButton(driveStick, XboxController.Button.kB.value);
-        triggerOut.onTrue(new TriggerOut(0.25, s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
+        final JoystickButton triggerOut = new JoystickButton(driveStick, XboxController.Button.kY.value);
+        triggerOut.onTrue(new TriggerOut(-0.25, s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
 
         
     }

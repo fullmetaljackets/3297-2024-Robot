@@ -23,13 +23,13 @@ public class FloorIntake extends SubsystemBase{
     */
     public FloorIntake() {
 
-        FloorIntakeMotor = new CANSparkMax(10, MotorType.kBrushless);   
+        FloorIntakeMotor = new CANSparkMax(9, MotorType.kBrushless);   
         FloorIntakeMotor.restoreFactoryDefaults();  
         FloorIntakeMotor.setInverted(false);
         FloorIntakeMotor.setIdleMode(IdleMode.kBrake);
         FloorIntakeMotor.burnFlash();
 
-        FloorAmpMotor = new CANSparkMax(11, MotorType.kBrushless);
+        FloorAmpMotor = new CANSparkMax(14, MotorType.kBrushless);
         FloorAmpMotor.restoreFactoryDefaults();  
         FloorAmpMotor.setInverted(false);
         FloorAmpMotor.setIdleMode(IdleMode.kBrake);
