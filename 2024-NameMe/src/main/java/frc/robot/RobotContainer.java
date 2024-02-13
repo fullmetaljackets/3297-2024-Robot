@@ -167,7 +167,7 @@ public class RobotContainer {
 
     
         final JoystickButton shooterIn = new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
-        shooterIn.onTrue(new ShooterIn(s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(2));        
+        shooterIn.onTrue(new ShooterIn(s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(5));        
 
         //Trigger
         final JoystickButton triggerIn =new JoystickButton(driveStick, XboxController.Button.kX.value);

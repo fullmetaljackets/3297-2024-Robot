@@ -38,13 +38,13 @@ public class Shooter extends SubsystemBase{
         Shooter1Motor = new CANSparkMax(11, MotorType.kBrushless);
         Shooter1Motor.restoreFactoryDefaults();  
         Shooter1Motor.setInverted(false);
-        Shooter1Motor.setIdleMode(IdleMode.kBrake);
+        Shooter1Motor.setIdleMode(IdleMode.kCoast);
         Shooter1Motor.burnFlash();
 
         Shooter2Motor = new CANSparkMax(12, MotorType.kBrushless);
         Shooter2Motor.restoreFactoryDefaults();  
         Shooter2Motor.setInverted(false);
-        Shooter2Motor.setIdleMode(IdleMode.kBrake);
+        Shooter2Motor.setIdleMode(IdleMode.kCoast);
         Shooter2Motor.burnFlash();
 
         PanValve = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 2, 3);

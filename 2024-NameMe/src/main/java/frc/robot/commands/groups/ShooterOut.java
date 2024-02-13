@@ -11,8 +11,18 @@ public class ShooterOut extends SequentialCommandGroup {
 
         addCommands(
             //shooter motor 1&2 out
-            new Shooter1Out (-1, s_Shooter),
-            new Shooter2Out (.95, s_Shooter)
+            new Shooter1Out (-1, s_Shooter).withTimeout(0.25),
+            new Shooter2Out (.95, s_Shooter).withTimeout(0.25),
+            new Shooter1Out (-1, s_Shooter).withTimeout(0.25),
+            new Shooter2Out (.95, s_Shooter).withTimeout(0.25),
+            new Shooter1Out (-1, s_Shooter).withTimeout(0.25),
+            new Shooter2Out (.95, s_Shooter).withTimeout(0.25),
+            new Shooter1Out (-1, s_Shooter).withTimeout(0.25),
+            new Shooter2Out (.95, s_Shooter).withTimeout(0.25),
+            new Shooter1Out (-1, s_Shooter).withTimeout(0.25),
+            new Shooter2Out (.95, s_Shooter).withTimeout(0.25),
+            new Shooter1Out (-1, s_Shooter).withTimeout(0.25),
+            new Shooter2Out (.95, s_Shooter).withTimeout(0.25)
         );
     }
 }
