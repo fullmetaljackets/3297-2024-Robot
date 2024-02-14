@@ -8,7 +8,8 @@
     "Red paths"
   ],
   "autoFolders": [
-    "Blue Autos"
+    "Blue Autos",
+    "Test"
   ],
   "defaultMaxVel": 6.0,
   "defaultMaxAccel": 6.0,

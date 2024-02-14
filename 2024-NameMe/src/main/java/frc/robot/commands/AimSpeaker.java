@@ -1,16 +1,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-
-import frc.robot.subsystems.ShooterTrigger;
+import frc.robot.subsystems.ShooterPan;
 
 /**
  *
  */
 public class AimSpeaker extends InstantCommand {
-    private final ShooterTrigger m_shooterTrigger;
+    private final ShooterPan m_shooterTrigger;
 
-    public AimSpeaker(ShooterTrigger subsystem) {
+    public AimSpeaker(ShooterPan subsystem) {
         m_shooterTrigger = subsystem;
         addRequirements(m_shooterTrigger);
     }

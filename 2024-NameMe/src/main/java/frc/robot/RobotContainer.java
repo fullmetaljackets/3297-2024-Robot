@@ -10,8 +10,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AimAmp;
+import frc.robot.commands.AimSpeaker;
 import frc.robot.commands.ArmExtend;
 import frc.robot.commands.ArmRetract;
 import frc.robot.commands.ElevatorLower;
@@ -28,6 +29,7 @@ import frc.robot.commands.ShooterClose;
 import frc.robot.commands.ShooterOpen;
 import frc.robot.commands.TriggerIn;
 import frc.robot.commands.TriggerOut;
+import frc.robot.commands.ZeroPigeon;
 import frc.robot.commands.groups.FloorIntakeNote;
 import frc.robot.commands.groups.ShooterIn;
 import frc.robot.commands.groups.ShooterInStop;
@@ -38,7 +40,9 @@ import frc.robot.commands.swerve.TeleopSwerve;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.FloorIntake;
+import frc.robot.subsystems.ShooterJaws;
 import frc.robot.subsystems.ShooterOne;
+import frc.robot.subsystems.ShooterPan;
 import frc.robot.subsystems.ShooterTrigger;
 import frc.robot.subsystems.ShooterTwo;
 import frc.robot.subsystems.Swerve;
@@ -78,6 +82,8 @@ public class RobotContainer {
     private final ShooterOne s_ShooterOne = new ShooterOne();
     private final ShooterTwo s_ShooterTwo = new ShooterTwo();
     private final ShooterTrigger s_ShooterTrigger = new ShooterTrigger();
+    private final ShooterPan s_ShooterPan = new ShooterPan();
+    private final ShooterJaws s_ShooterJaws = new ShooterJaws();
     private final SendableChooser<Command> autoChooser;
 
     /* Limelight Values */
@@ -85,9 +91,10 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        NamedCommands.registerCommand("shootSpeaker", new ShooterOutAuto(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger));
+        NamedCommands.registerCommand("shootSpeaker", new ShooterOutAuto(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger, s_ShooterJaws));
         NamedCommands.registerCommand("floorIntakeNote", new FloorIntakeNote(s_FloorIntake));
         NamedCommands.registerCommand("floorAmpShoot", new FloorAmpIn(0.25, s_FloorIntake));
+        NamedCommands.registerCommand("zeroGyro", new ZeroPigeon(s_Swerve).withTimeout(1));
 
         NamedCommands.registerCommand("floorIntakeIn", new FloorIntakeIn(0.25, s_FloorIntake));
         NamedCommands.registerCommand("floorIntakeOut", new FloorIntakeOut(-0.25, s_FloorIntake));
@@ -99,10 +106,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("shooter1In", new Shooter1In(-0.25, s_ShooterOne));
         NamedCommands.registerCommand("shooter2Out", new Shooter2Out(-0.25, s_ShooterTwo));
         NamedCommands.registerCommand("shooter2In", new Shooter2In(0.25, s_ShooterTwo));
-        NamedCommands.registerCommand("shooterOpen", new ShooterOpen(s_ShooterTrigger));
-        NamedCommands.registerCommand("shooterClose", new ShooterClose(s_ShooterTrigger));
+        NamedCommands.registerCommand("shooterOpen", new ShooterOpen(s_ShooterJaws));
+        NamedCommands.registerCommand("shooterClose", new ShooterClose(s_ShooterJaws));
         NamedCommands.registerCommand("triggerIn", new TriggerIn(-0.25, s_ShooterTrigger).withTimeout(5));
-        NamedCommands.registerCommand("triggerOut", new TriggerOut(0.25, s_ShooterTrigger));
+        NamedCommands.registerCommand("triggerOut", new TriggerOut(0.25, s_ShooterTrigger).withTimeout(2));
 
 
 
@@ -154,8 +161,9 @@ public class RobotContainer {
 
         // Shooter
         final JoystickButton shooterToggle = new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
-        shooterToggle.onTrue(new ShooterOpen(s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-        shooterToggle.onFalse(new ShooterClose(s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterToggle.onTrue(new ShooterOpen(s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterToggle.onFalse(new ShooterClose(s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        // shooterToggle.toggleOnTrue(new ShooterToggle())
         
         final JoystickButton floorIntakeShoot =new JoystickButton(copilotStick, XboxController.Axis.kRightTrigger.value);
         floorIntakeShoot.onTrue(new FloorAmpOut(0.25,s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
@@ -176,6 +184,13 @@ public class RobotContainer {
         final JoystickButton shooterIn = new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
         shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterIn.onFalse(new ShooterInStop(s_ShooterOne, s_ShooterTwo));
+
+        final JoystickButton aimAmp = new JoystickButton(driveStick, XboxController.Button.kA.value);
+        aimAmp.onTrue(new AimAmp(s_ShooterPan));
+
+        final JoystickButton aimSpeaker = new JoystickButton(driveStick, XboxController.Button.kB.value);
+        aimSpeaker.onTrue(new AimSpeaker(s_ShooterPan));
+
         //Trigger
         final JoystickButton triggerIn =new JoystickButton(driveStick, XboxController.Button.kX.value);
         triggerIn.onTrue(new TriggerIn(0.25, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
