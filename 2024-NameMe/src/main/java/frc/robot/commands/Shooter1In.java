@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterOne;
 
 
 /**
@@ -10,15 +10,15 @@ import frc.robot.subsystems.Shooter;
  */
 public class Shooter1In extends Command {
 
-    private final Shooter s_Shooter;
+    private final ShooterOne s_ShooterOne;
     private double m_ShooterVelocity;
  
 
-    public Shooter1In(double ShooterVelocity, Shooter subsystem) {
+    public Shooter1In(double ShooterVelocity, ShooterOne subsystem) {
         m_ShooterVelocity = ShooterVelocity;
 
-        s_Shooter = subsystem;
-        addRequirements(s_Shooter);
+        s_ShooterOne = subsystem;
+        addRequirements(s_ShooterOne);
 
     }
 
@@ -30,13 +30,13 @@ public class Shooter1In extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        s_Shooter.shooter1MotorRun(m_ShooterVelocity);
+        s_ShooterOne.shooter1MotorRun(m_ShooterVelocity);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        s_Shooter.shooter1MotorRun(0);
+        s_ShooterOne.shooter1MotorRun(0);
     }
 
     // Returns true when the command should end.

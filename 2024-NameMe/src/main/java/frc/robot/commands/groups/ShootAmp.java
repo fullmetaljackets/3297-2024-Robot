@@ -13,25 +13,27 @@ import frc.robot.commands.Shooter2Out;
 import frc.robot.commands.ShooterClose;
 import frc.robot.commands.TriggerOut;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterOne;
+import frc.robot.subsystems.ShooterTrigger;
+import frc.robot.subsystems.ShooterTwo;
 
 public class ShootAmp extends SequentialCommandGroup {
     
-    public ShootAmp(Shooter s_Shooter, Arm s_Arm){
+    public ShootAmp(ShooterTrigger s_ShooterTrigger, ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo, Arm s_Arm){
 
         addCommands(
             // arm retract
             new ArmRetract(s_Arm),
             // aim speaker
-            new AimAmp(s_Shooter),
+            new AimAmp(s_ShooterTrigger),
             //shooter close
-            new ShooterClose(s_Shooter),
+            new ShooterClose(s_ShooterTrigger),
             //shooter motor 1&2 out
-            new Shooter1Out (1, s_Shooter).withTimeout(3),
-            new Shooter2Out (-0.7, s_Shooter).withTimeout(3),
+            new Shooter1Out (1, s_ShooterOne).withTimeout(3),
+            new Shooter2Out (-0.7, s_ShooterTwo).withTimeout(3),
             new WaitCommand(1),
             //trigger out
-            new TriggerOut (0.25, s_Shooter).withTimeout(2)
+            new TriggerOut (0.25, s_ShooterTrigger).withTimeout(2)
 
         );
     }

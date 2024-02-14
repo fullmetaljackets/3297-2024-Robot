@@ -1,0 +1,71 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 13.685145562381521,
+        "y": 7.687519103851768
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 13.685145562379331,
+        "y": 7.351262612129754
+      },
+      "isLocked": false,
+      "linkedName": "Gp To Amp 1 End "
+    },
+    {
+      "anchor": {
+        "x": 13.70833566525671,
+        "y": 6.72512983444047
+      },
+      "prevControl": {
+        "x": 13.859254854278271,
+        "y": 6.762859631695861
+      },
+      "nextControl": {
+        "x": 13.476434636482903,
+        "y": 6.667154577247019
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 13.66195545950195,
+        "y": 5.994641593802973
+      },
+      "prevControl": {
+        "x": 13.67355051094064,
+        "y": 6.4468485999119
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.65,
+      "rotationDegrees": 90.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 6.0,
+    "maxAcceleration": 6.0,
+    "maxAngularVelocity": 1000.0,
+    "maxAngularAcceleration": 1400.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 90.00000000033822,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Red paths",
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}

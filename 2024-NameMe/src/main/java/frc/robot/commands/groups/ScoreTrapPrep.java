@@ -7,16 +7,16 @@ import frc.robot.commands.ElevatorRaise;
 import frc.robot.commands.ShooterClose;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterTrigger;
 
 public class ScoreTrapPrep extends SequentialCommandGroup {
 
-    public ScoreTrapPrep(Shooter s_Shooter, Arm s_Arm, Elevator s_Elevator){
+    public ScoreTrapPrep(ShooterTrigger s_ShooterTrigger, Arm s_Arm, Elevator s_Elevator){
         addCommands(
         //shooter close
-        new ShooterClose(s_Shooter),
+        new ShooterClose(s_ShooterTrigger),
         // Aim Amp
-        new AimAmp(s_Shooter),
+        new AimAmp(s_ShooterTrigger),
         //Extend arm
         new ArmExtend(s_Arm),
         //Raise Elevator

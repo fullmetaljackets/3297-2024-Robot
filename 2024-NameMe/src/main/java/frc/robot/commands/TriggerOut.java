@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterTrigger;
 
 
 /**
@@ -10,11 +10,11 @@ import frc.robot.subsystems.Shooter;
  */
 public class TriggerOut extends Command {
 
-    private final Shooter s_Shooter;
+    private final ShooterTrigger s_Shooter;
     private double m_TriggerVelocity;
  
 
-    public TriggerOut(double TriggerVelocity, Shooter subsystem) {
+    public TriggerOut(double TriggerVelocity, ShooterTrigger subsystem) {
         m_TriggerVelocity = TriggerVelocity;
 
         s_Shooter = subsystem;

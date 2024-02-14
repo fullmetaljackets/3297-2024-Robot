@@ -6,14 +6,14 @@ import frc.robot.commands.Shooter2Out;
 import frc.robot.subsystems.ShooterOne;
 import frc.robot.subsystems.ShooterTwo;
 
-public class ShooterOut extends ParallelCommandGroup {
+public class ShooterOutStop extends ParallelCommandGroup {
     
-    public ShooterOut(ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo){
+    public ShooterOutStop(ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo){
 
         addCommands(
             //shooter motor 1&2 out
-            new Shooter1Out(-.7, s_ShooterOne),
-            new Shooter2Out(1, s_ShooterTwo)
+            new Shooter1Out(0, s_ShooterOne),
+            new Shooter2Out(0, s_ShooterTwo)
         );
     }
 }

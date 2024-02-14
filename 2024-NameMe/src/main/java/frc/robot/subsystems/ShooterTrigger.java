@@ -16,36 +16,22 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 /**
  *
  */
-public class Shooter extends SubsystemBase{ 
+public class ShooterTrigger extends SubsystemBase{ 
    
     private CANSparkMax TrigerMotor;
-    private CANSparkMax Shooter1Motor;
-    private CANSparkMax Shooter2Motor;
     private DoubleSolenoid PanValve;
     private DoubleSolenoid ShooterValve;
 
     /**
     *
     */
-    public Shooter() {
+    public ShooterTrigger() {
 
         TrigerMotor = new CANSparkMax(13, MotorType.kBrushless);   
         TrigerMotor.restoreFactoryDefaults();  
         TrigerMotor.setInverted(false);
         TrigerMotor.setIdleMode(IdleMode.kBrake);
         TrigerMotor.burnFlash();
-
-        Shooter1Motor = new CANSparkMax(11, MotorType.kBrushless);
-        Shooter1Motor.restoreFactoryDefaults();  
-        Shooter1Motor.setInverted(false);
-        Shooter1Motor.setIdleMode(IdleMode.kCoast);
-        Shooter1Motor.burnFlash();
-
-        Shooter2Motor = new CANSparkMax(12, MotorType.kBrushless);
-        Shooter2Motor.restoreFactoryDefaults();  
-        Shooter2Motor.setInverted(false);
-        Shooter2Motor.setIdleMode(IdleMode.kCoast);
-        Shooter2Motor.burnFlash();
 
         PanValve = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 2, 3);
         addChild("armValve", PanValve);
@@ -69,16 +55,6 @@ public class Shooter extends SubsystemBase{
     // here. Call these from Commands.
     public void triggerMotorRun(double setpoint){
         TrigerMotor.set(setpoint);
-        //DriverStation.reportError("******** TrigerMotor **************", false);
-    }
-
-    public void shooter1MotorRun(double setpoint){
-        Shooter1Motor.set(setpoint);
-        //DriverStation.reportError("******** TrigerMotor **************", false);
-    }
-
-    public void shooter2MotorRun(double setpoint){
-        Shooter2Motor.set(setpoint);
         //DriverStation.reportError("******** TrigerMotor **************", false);
     }
     public void panUp(){

@@ -30,12 +30,17 @@ import frc.robot.commands.TriggerIn;
 import frc.robot.commands.TriggerOut;
 import frc.robot.commands.groups.FloorIntakeNote;
 import frc.robot.commands.groups.ShooterIn;
+import frc.robot.commands.groups.ShooterInStop;
 import frc.robot.commands.groups.ShooterOut;
+import frc.robot.commands.groups.ShooterOutAuto;
+import frc.robot.commands.groups.ShooterOutStop;
 import frc.robot.commands.swerve.TeleopSwerve;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.FloorIntake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterOne;
+import frc.robot.subsystems.ShooterTrigger;
+import frc.robot.subsystems.ShooterTwo;
 import frc.robot.subsystems.Swerve;
 
 
@@ -54,7 +59,7 @@ public class RobotContainer {
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftX.value;
     private final int strafeAxis = XboxController.Axis.kLeftY.value;
-    private final int rotationAxis = XboxController.Axis.kLeftX.value;
+    private final int rotationAxis = XboxController.Axis.kRightX.value;
     private final int zerogyro = XboxController.Button.kStart.value;
     private final int robotcentric = XboxController.Button.kA.value;
     /* Driver Buttons */
@@ -70,7 +75,9 @@ public class RobotContainer {
     public final Elevator s_Elevator = new Elevator();
     private final Arm s_Arm = new Arm();
     private final FloorIntake s_FloorIntake = new FloorIntake();
-    private final Shooter s_Shooter = new Shooter();
+    private final ShooterOne s_ShooterOne = new ShooterOne();
+    private final ShooterTwo s_ShooterTwo = new ShooterTwo();
+    private final ShooterTrigger s_ShooterTrigger = new ShooterTrigger();
     private final SendableChooser<Command> autoChooser;
 
     /* Limelight Values */
@@ -78,24 +85,24 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        NamedCommands.registerCommand("shootSpeaker", new PrintCommand("shootSpeaker"));
-
+        NamedCommands.registerCommand("shootSpeaker", new ShooterOutAuto(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger));
+        NamedCommands.registerCommand("floorIntakeNote", new FloorIntakeNote(s_FloorIntake));
         NamedCommands.registerCommand("floorAmpShoot", new FloorAmpIn(0.25, s_FloorIntake));
+
         NamedCommands.registerCommand("floorIntakeIn", new FloorIntakeIn(0.25, s_FloorIntake));
         NamedCommands.registerCommand("floorIntakeOut", new FloorIntakeOut(-0.25, s_FloorIntake));
         NamedCommands.registerCommand("elevatorRaise", new ElevatorRaise(0.25, s_Elevator));
         NamedCommands.registerCommand("elevatorLower", new ElevatorLower(-0.25, s_Elevator));
         NamedCommands.registerCommand("armExtend", new ArmExtend(s_Arm));
         NamedCommands.registerCommand("armRetract", new ArmRetract(s_Arm));
-        NamedCommands.registerCommand("floorIntakeNote", new FloorIntakeNote(s_FloorIntake));
-        NamedCommands.registerCommand("shooter1Out", new Shooter1Out(0.25, s_Shooter));
-        NamedCommands.registerCommand("shooter1In", new Shooter1In(-0.25, s_Shooter));
-        NamedCommands.registerCommand("shooter2Out", new Shooter2Out(-0.25, s_Shooter));
-        NamedCommands.registerCommand("shooter2In", new Shooter2In(0.25, s_Shooter));
-        NamedCommands.registerCommand("shooterOpen", new ShooterOpen(s_Shooter));
-        NamedCommands.registerCommand("shooterClose", new ShooterClose(s_Shooter));
-        NamedCommands.registerCommand("triggerIn", new TriggerIn(-0.25, s_Shooter));
-        NamedCommands.registerCommand("triggerOut", new TriggerOut(0.25, s_Shooter));
+        NamedCommands.registerCommand("shooter1Out", new Shooter1Out(0.25, s_ShooterOne));
+        NamedCommands.registerCommand("shooter1In", new Shooter1In(-0.25, s_ShooterOne));
+        NamedCommands.registerCommand("shooter2Out", new Shooter2Out(-0.25, s_ShooterTwo));
+        NamedCommands.registerCommand("shooter2In", new Shooter2In(0.25, s_ShooterTwo));
+        NamedCommands.registerCommand("shooterOpen", new ShooterOpen(s_ShooterTrigger));
+        NamedCommands.registerCommand("shooterClose", new ShooterClose(s_ShooterTrigger));
+        NamedCommands.registerCommand("triggerIn", new TriggerIn(-0.25, s_ShooterTrigger).withTimeout(5));
+        NamedCommands.registerCommand("triggerOut", new TriggerOut(0.25, s_ShooterTrigger));
 
 
 
@@ -147,11 +154,11 @@ public class RobotContainer {
 
         // Shooter
         final JoystickButton shooterToggle = new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
-        shooterToggle.onTrue(new ShooterOpen(s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-        shooterToggle.onFalse(new ShooterClose(s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterToggle.onTrue(new ShooterOpen(s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterToggle.onFalse(new ShooterClose(s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         
         final JoystickButton floorIntakeShoot =new JoystickButton(copilotStick, XboxController.Axis.kRightTrigger.value);
-        floorIntakeShoot.onTrue(new FloorAmpOut(0.25,s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
+        floorIntakeShoot.onTrue(new FloorAmpOut(0.25,s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
  
         /* Pilot Buttons */
         // Floor Intake, Not Testing/Working, No Motors Yet 
@@ -163,19 +170,20 @@ public class RobotContainer {
 
         //Shooter
         final JoystickButton shooterOut =new JoystickButton(driveStick, XboxController.Button.kLeftBumper.value);
-        shooterOut.onTrue(new ShooterOut(s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(2));
-
+        shooterOut.onTrue(new ShooterOut(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterOut.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
     
         final JoystickButton shooterIn = new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
-        shooterIn.onTrue(new ShooterIn(s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(5));        
-
+        shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterIn.onFalse(new ShooterInStop(s_ShooterOne, s_ShooterTwo));
         //Trigger
         final JoystickButton triggerIn =new JoystickButton(driveStick, XboxController.Button.kX.value);
-        triggerIn.onTrue(new TriggerIn(0.25, s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
+        triggerIn.onTrue(new TriggerIn(0.25, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        triggerIn.onFalse(new TriggerIn(0, s_ShooterTrigger));
 
         final JoystickButton triggerOut = new JoystickButton(driveStick, XboxController.Button.kY.value);
-        triggerOut.onTrue(new TriggerOut(-0.25, s_Shooter).withInterruptBehavior(InterruptionBehavior.kCancelSelf).withTimeout(1));
-
+        triggerOut.onTrue(new TriggerOut(-1, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        triggerOut.onFalse(new TriggerOut(0, s_ShooterTrigger));
         
     }
 
