@@ -17,6 +17,7 @@ public class Arm extends SubsystemBase {
     */
     public Arm() {
         armValve = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 0, 1);
+        armValve.set(Value.kForward);
         addChild("armValve", armValve);
     }
 
@@ -35,11 +36,13 @@ public class Arm extends SubsystemBase {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void my_ArmExtend(){
-        armValve.set(Value.kForward);
-    }
-    public void my_ArmRetract(){
         armValve.set(Value.kReverse);
     }
-
+    public void my_ArmRetract(){
+        armValve.set(Value.kForward);
+    }
+    public void my_ArmToggle(){
+        armValve.toggle();
+    }
 }
 

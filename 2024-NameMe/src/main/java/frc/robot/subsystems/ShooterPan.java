@@ -22,6 +22,7 @@ public class ShooterPan extends SubsystemBase{
     public ShooterPan() {
 
         PanValve = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 4, 5);
+        PanValve.set(Value.kReverse);
         addChild("armValve", PanValve);
 
     }
@@ -39,10 +40,13 @@ public class ShooterPan extends SubsystemBase{
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void panUp(){
-        PanValve.set(Value.kForward);
+        PanValve.set(Value.kReverse);
     }
     public void panDown(){
-        PanValve.set(Value.kReverse);
+        PanValve.set(Value.kForward);
+    }
+    public void my_PanToggle(){
+        PanValve.toggle();
     }
 }
 
