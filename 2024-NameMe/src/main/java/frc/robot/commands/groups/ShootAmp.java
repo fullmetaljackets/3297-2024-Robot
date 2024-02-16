@@ -24,13 +24,12 @@ public class ShootAmp extends SequentialCommandGroup {
     public ShootAmp(ShooterTrigger s_ShooterTrigger, ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo, Arm s_Arm, ShooterJaws s_ShooterJaws, ShooterPan s_ShooterPan){
 
         addCommands(
+            // new ShooterClose(s_ShooterJaws),
             // arm retract
             new ArmRetract(s_Arm),
             // aim speaker
             new AimAmp(s_ShooterPan),
             //shooter close
-            new ShooterClose(s_ShooterJaws),
-            //shooter motor 1&2 out
             new Shooter1Out (1, s_ShooterOne).withTimeout(3),
             new Shooter2Out (-0.7, s_ShooterTwo).withTimeout(3),
             new WaitCommand(1),

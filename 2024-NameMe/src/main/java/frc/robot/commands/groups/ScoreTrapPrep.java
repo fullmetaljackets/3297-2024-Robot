@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AimAmp;
 import frc.robot.commands.ArmExtend;
 import frc.robot.commands.ElevatorRaise;
-import frc.robot.commands.ShooterClose;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.ShooterJaws;
@@ -15,8 +14,6 @@ public class ScoreTrapPrep extends SequentialCommandGroup {
 
     public ScoreTrapPrep(ShooterTrigger s_ShooterTrigger, Arm s_Arm, Elevator s_Elevator, ShooterJaws s_ShooterJaws, ShooterPan s_ShooterPan){
         addCommands(
-        //shooter close
-        new ShooterClose(s_ShooterJaws),
         // Aim Amp
         new AimAmp(s_ShooterPan),
         //Extend arm
@@ -24,8 +21,6 @@ public class ScoreTrapPrep extends SequentialCommandGroup {
         //Raise Elevator
         new ElevatorRaise(-0.25,s_Elevator)
         );
- 
-
     }
 }
 

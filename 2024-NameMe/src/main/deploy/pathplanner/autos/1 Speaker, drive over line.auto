@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.1392999057184554,
-      "y": 3.130663888446421
+      "x": 1.0465394942089317,
+      "y": 2.678456882337493
     },
-    "rotation": -49.004172940709395
+    "rotation": 7.69605172201668
   },
   "command": {
     "type": "sequential",
@@ -20,13 +20,19 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0
+            "waitTime": 0.0
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "drive over line "
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
           }
         }
       ]

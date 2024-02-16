@@ -31,6 +31,7 @@ import frc.robot.commands.ShooterOpen;
 import frc.robot.commands.TriggerIn;
 import frc.robot.commands.TriggerOut;
 import frc.robot.commands.ZeroPigeon;
+import frc.robot.commands.groups.FloorIntakeClear;
 import frc.robot.commands.groups.FloorIntakeNote;
 import frc.robot.commands.groups.ShooterIn;
 import frc.robot.commands.groups.ShooterInStop;
@@ -144,7 +145,10 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         // robotCentric.
 
-        /* CoPilot Buttons */
+        /*
+         * COPILOT
+         */
+        //Copilot Face Buttons 
         // Elevator
         final JoystickButton elevatorRaise = new JoystickButton(copilotStick, XboxController.Button.kB.value);        
         elevatorRaise.whileTrue(new ElevatorRaise(0.25, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
@@ -153,43 +157,54 @@ public class RobotContainer {
         elevatorLower.whileTrue(new ElevatorLower(-0.25, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf)); 
 
         // Arm
-
         final JoystickButton armRetract = new JoystickButton(copilotStick, XboxController.Button.kX.value);        
         armRetract.toggleOnTrue(new ArmToggle(s_Arm).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
-        // Shooter
-        final JoystickButton shooterToggle = new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
-        shooterToggle.onTrue(new ShooterOpen(s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-        shooterToggle.onFalse(new ShooterClose(s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-        // shooterToggle.toggleOnTrue(new ShooterToggle())
-        
         // Pan
         final JoystickButton aim = new JoystickButton(copilotStick, XboxController.Button.kY.value);
         aim.toggleOnTrue(new PanToggle(s_ShooterPan));
 
+        // final JoystickButton shooterToggle = new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
+        // shooterToggle.onTrue(new ShooterOpen(s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        // shooterToggle.onFalse(new ShooterClose(s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        // shooterToggle.toggleOnTrue(new ShooterToggle())
 
+        // Shooter
+        //Copilot Bumpers/Triggers
 
-        /* Pilot Buttons */
         // Floor Intake, Not Testing/Working, No Motors Yet 
-        //final JoystickButton floorIntakeNote =new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
-        //floorIntakeNote.onTrue(new FloorIntakeNote(s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        final JoystickButton floorIntakeNote =new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
+        floorIntakeNote.onTrue(new FloorIntakeNote(s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
-        //final JoystickButton floorIntakeClear =new JoystickButton(copilotStick, XboxController.Button.kLeftBumper.value);
-        //floorIntakeClear.onTrue(new FloorIntakeClear(s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        final JoystickButton floorIntakeClear =new JoystickButton(copilotStick, XboxController.Button.kLeftBumper.value);
+        floorIntakeClear.onTrue(new FloorIntakeClear(s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
-        // final JoystickButton floorIntakeShoot =new JoystickButton(driveStick, XboxController.Axis.kRightTrigger.value);
-        // floorIntakeShoot.onTrue(new FloorAmpOut(0.25,s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        final JoystickButton floorIntakeShoot =new JoystickButton(driveStick, XboxController.Axis.kRightTrigger.value);
+        floorIntakeShoot.onTrue(new FloorAmpOut(0.25,s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
+        /*
+         * DRIVER
+         */
+        //DriveStick Bumpers/Triggers
         //Shooter
         final JoystickButton shooterOut =new JoystickButton(driveStick, XboxController.Button.kLeftBumper.value);
-        shooterOut.onTrue(new ShooterOut(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterOut.onTrue(new ShooterOut(s_ShooterOne, s_ShooterTwo, s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterOut.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
     
         final JoystickButton shooterIn = new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
-        shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo, s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterIn.onFalse(new ShooterInStop(s_ShooterOne, s_ShooterTwo));
+        
+        //Trigger
+        //DriveStick Face Buttons
+        // final JoystickButton triggerIn =new JoystickButton(driveStick, XboxController.Button.kX.value);
+        final JoystickButton triggerIn = new JoystickButton(driveStick, XboxController.Button.kX.value);
+        triggerIn.onTrue(new TriggerIn(-0.25, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        triggerIn.onFalse(new TriggerIn(0, s_ShooterTrigger));
 
-        // aim.toggleOnFalse(new AimSpeaker(s_ShooterPan));
+        final JoystickButton triggerOut = new JoystickButton(driveStick, XboxController.Button.kY.value);
+        triggerOut.onTrue(new TriggerOut(1, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        triggerOut.onFalse(new TriggerOut(0, s_ShooterTrigger));
 
         // final JoystickButton brake = new JoystickButton(driveStick, XboxController.Button.kA.value);
         // brake.onTrue(new (s_ShooterPan));
@@ -197,16 +212,7 @@ public class RobotContainer {
         // Try adding a brake
         // driveStick.a(null).whileTrue(drivetrain.applyRequest(() -> brake));
         // s_Swerve.applyRequest(() -> brake);
-        
 
-        //Trigger
-        final JoystickButton triggerIn =new JoystickButton(driveStick, XboxController.Button.kX.value);
-        triggerIn.onTrue(new TriggerIn(0.25, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-        triggerIn.onFalse(new TriggerIn(0, s_ShooterTrigger));
-
-        final JoystickButton triggerOut = new JoystickButton(driveStick, XboxController.Button.kY.value);
-        triggerOut.onTrue(new TriggerOut(-1, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-        triggerOut.onFalse(new TriggerOut(0, s_ShooterTrigger));
         
     }
 
