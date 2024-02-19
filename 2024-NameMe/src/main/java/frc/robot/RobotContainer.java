@@ -5,6 +5,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,7 +19,6 @@ import frc.robot.commands.ArmToggle;
 import frc.robot.commands.ElevatorLower;
 import frc.robot.commands.ElevatorRaise;
 import frc.robot.commands.FloorAmpIn;
-import frc.robot.commands.FloorAmpOut;
 import frc.robot.commands.FloorIntakeIn;
 import frc.robot.commands.FloorIntakeOut;
 import frc.robot.commands.PanToggle;
@@ -31,13 +31,13 @@ import frc.robot.commands.ShooterOpen;
 import frc.robot.commands.TriggerIn;
 import frc.robot.commands.TriggerOut;
 import frc.robot.commands.ZeroPigeon;
-import frc.robot.commands.groups.FloorIntakeClear;
 import frc.robot.commands.groups.FloorIntakeNote;
 import frc.robot.commands.groups.ShooterIn;
 import frc.robot.commands.groups.ShooterInStop;
 import frc.robot.commands.groups.ShooterOut;
 import frc.robot.commands.groups.ShooterOutAuto;
 import frc.robot.commands.groups.ShooterOutStop;
+import frc.robot.commands.groups.ShooterOutTrap;
 import frc.robot.commands.swerve.TeleopSwerve;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
@@ -60,6 +60,7 @@ public class RobotContainer {
     /* Controllers */
     private final XboxController driveStick = new XboxController(0);
     private final XboxController copilotStick = new XboxController(1);
+    // private final Joystick driveStick = new Joystick(0);
     
 
     /* Drive Controls */
@@ -67,13 +68,17 @@ public class RobotContainer {
     private final int strafeAxis = XboxController.Axis.kLeftY.value;
     private int rotationAxis = XboxController.Axis.kRightX.value;
     private final int zerogyro = XboxController.Button.kStart.value;
+    private final int zerogyro2 = XboxController.Button.kLeftStick.value;
+    private final int zerogyro3 = Joystick.ButtonType.kTrigger.value;
     private final int robotcentric = XboxController.Button.kA.value;
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driveStick, zerogyro);
+    private final JoystickButton zeroGyro2 = new JoystickButton(driveStick, zerogyro2);
+    private final JoystickButton zeroGyro3 = new JoystickButton(driveStick, zerogyro3);
     private final JoystickButton robotCentric = new JoystickButton(driveStick, robotcentric);
 
     //Speed Controls
-    private final double desiredspeed = 2;
+    private final double desiredspeed = 1;
     private final double desiredturnspeed = desiredspeed*0.4;
 
     /* Subsystems */
@@ -143,6 +148,9 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        zeroGyro2.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        zeroGyro3.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+
         // robotCentric.
 
         /*
@@ -151,10 +159,10 @@ public class RobotContainer {
         //Copilot Face Buttons 
         // Elevator
         final JoystickButton elevatorRaise = new JoystickButton(copilotStick, XboxController.Button.kB.value);        
-        elevatorRaise.whileTrue(new ElevatorRaise(0.25, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        elevatorRaise.whileTrue(new ElevatorRaise(1, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
-        final JoystickButton elevatorLower = new JoystickButton(copilotStick, XboxController.Button.kA.value);        
-        elevatorLower.whileTrue(new ElevatorLower(-0.25, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf)); 
+        final JoystickButton elevatorLower = new JoystickButton(copilotStick, XboxController.Button.kA.value);
+        elevatorLower.whileTrue(new ElevatorLower(-1, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf)); 
 
         // Arm
         final JoystickButton armRetract = new JoystickButton(copilotStick, XboxController.Button.kX.value);        
@@ -173,14 +181,17 @@ public class RobotContainer {
         //Copilot Bumpers/Triggers
 
         // Floor Intake, Not Testing/Working, No Motors Yet 
-        final JoystickButton floorIntakeNote =new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
-        floorIntakeNote.onTrue(new FloorIntakeNote(s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        /*final JoystickButton floorIntakeNote =new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
+        floorIntakeNote.onTrue(new FloorAmpIn(0.80, s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        floorIntakeNote.onFalse(new FloorAmpIn(0, s_FloorIntake));
 
         final JoystickButton floorIntakeClear =new JoystickButton(copilotStick, XboxController.Button.kLeftBumper.value);
-        floorIntakeClear.onTrue(new FloorIntakeClear(s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        floorIntakeClear.onTrue(new FloorAmpOut(-1, s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        floorIntakeClear.onFalse(new FloorAmpOut(0, s_FloorIntake));*/
+        
 
-        final JoystickButton floorIntakeShoot =new JoystickButton(driveStick, XboxController.Axis.kRightTrigger.value);
-        floorIntakeShoot.onTrue(new FloorAmpOut(0.25,s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        // final JoystickButton floorIntakeShoot =new JoystickButton(driveStick, XboxController.Axis.kRightTrigger.value);
+        // floorIntakeShoot.onTrue(new FloorAmpOut(0.25,s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
         /*
          * DRIVER
@@ -194,13 +205,21 @@ public class RobotContainer {
         final JoystickButton shooterIn = new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
         shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo, s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterIn.onFalse(new ShooterInStop(s_ShooterOne, s_ShooterTwo));
-        
+
+        final JoystickButton shooterOutTrap = new JoystickButton(driveStick, XboxController.Button.kB.value);
+        shooterOutTrap.onTrue(new ShooterOutTrap(s_ShooterOne, s_ShooterTwo, s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterOutTrap.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
+
+        final JoystickButton shooterOutAmp = new JoystickButton(driveStick, XboxController.Button.kA.value);
+        shooterOutAmp.onTrue(new ShooterOutTrap(s_ShooterOne, s_ShooterTwo, s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterOutAmp.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
+
         //Trigger
         //DriveStick Face Buttons
-        // final JoystickButton triggerIn =new JoystickButton(driveStick, XboxController.Button.kX.value);
         final JoystickButton triggerIn = new JoystickButton(driveStick, XboxController.Button.kX.value);
         triggerIn.onTrue(new TriggerIn(-0.25, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         triggerIn.onFalse(new TriggerIn(0, s_ShooterTrigger));
+        triggerIn.onFalse(new FloorIntakeIn(0, s_FloorIntake)); // trying to shut down floorintake motor that starts mysteriously with trigger in
 
         final JoystickButton triggerOut = new JoystickButton(driveStick, XboxController.Button.kY.value);
         triggerOut.onTrue(new TriggerOut(1, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));

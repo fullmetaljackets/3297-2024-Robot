@@ -20,7 +20,7 @@ public class ShooterPan extends SubsystemBase{
     public ShooterPan() {
 
         PanValve = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 4, 5);
-        PanValve.set(Value.kReverse);
+        PanValve.set(Value.kForward);
         addChild("armValve", PanValve);
 
     }
