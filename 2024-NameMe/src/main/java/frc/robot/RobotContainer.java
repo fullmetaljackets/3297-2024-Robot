@@ -35,6 +35,7 @@ import frc.robot.commands.groups.FloorIntakeNote;
 import frc.robot.commands.groups.ShooterIn;
 import frc.robot.commands.groups.ShooterInStop;
 import frc.robot.commands.groups.ShooterOut;
+import frc.robot.commands.groups.ShooterOutAmp;
 import frc.robot.commands.groups.ShooterOutAuto;
 import frc.robot.commands.groups.ShooterOutStop;
 import frc.robot.commands.groups.ShooterOutTrap;
@@ -60,7 +61,7 @@ public class RobotContainer {
     /* Controllers */
     private final XboxController driveStick = new XboxController(0);
     private final XboxController copilotStick = new XboxController(1);
-    // private final Joystick driveStick = new Joystick(0);
+    private final Joystick joystick = new Joystick(2);
     
 
     /* Drive Controls */
@@ -69,12 +70,20 @@ public class RobotContainer {
     private int rotationAxis = XboxController.Axis.kRightX.value;
     private final int zerogyro = XboxController.Button.kStart.value;
     private final int zerogyro2 = XboxController.Button.kLeftStick.value;
-    private final int zerogyro3 = Joystick.ButtonType.kTrigger.value;
+ 
+    private final boolean useJoystick = true;
+    private final int j_translationAxis = Joystick.AxisType.kX.value;
+    private final int j_strafeAxis = Joystick.AxisType.kY.value;
+    private int j_rotationAxis = Joystick.AxisType.kZ.value;
+    private final int j_zerogyro = 12;
+ 
     private final int robotcentric = XboxController.Button.kA.value;
+ 
+ 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driveStick, zerogyro);
     private final JoystickButton zeroGyro2 = new JoystickButton(driveStick, zerogyro2);
-    private final JoystickButton zeroGyro3 = new JoystickButton(driveStick, zerogyro3);
+    private final JoystickButton zeroGyro3 = new JoystickButton(driveStick, j_zerogyro);
     private final JoystickButton robotCentric = new JoystickButton(driveStick, robotcentric);
 
     //Speed Controls
@@ -119,17 +128,28 @@ public class RobotContainer {
         NamedCommands.registerCommand("triggerIn", new TriggerIn(-0.25, s_ShooterTrigger).withTimeout(5));
         NamedCommands.registerCommand("triggerOut", new TriggerOut(0.25, s_ShooterTrigger).withTimeout(2));
 
-        s_Swerve.setDefaultCommand(
-            new TeleopSwerve(
-                s_Swerve, 
-                () -> Math.pow(-desiredspeed*driveStick.getRawAxis(strafeAxis), 3), 
-                () -> Math.pow(-desiredspeed*driveStick.getRawAxis(translationAxis), 3),
-                () -> desiredturnspeed*driveStick.getRawAxis(rotationAxis), 
-                () -> robotCentric.getAsBoolean()
-                
-            )
+        if (useJoystick) {
+            s_Swerve.setDefaultCommand(
+                new TeleopSwerve(
+                    s_Swerve, 
+                    () -> Math.pow(-desiredspeed*joystick.getRawAxis(j_strafeAxis), 3), 
+                    () -> Math.pow(-desiredspeed*joystick.getRawAxis(j_translationAxis), 3),
+                    () -> desiredturnspeed*joystick.getRawAxis(j_rotationAxis), 
+                    () -> robotCentric.getAsBoolean()                
+                )
+            );
+        } else {
+            s_Swerve.setDefaultCommand(
+                new TeleopSwerve(
+                    s_Swerve, 
+                    () -> Math.pow(-desiredspeed*driveStick.getRawAxis(strafeAxis), 3), 
+                    () -> Math.pow(-desiredspeed*driveStick.getRawAxis(translationAxis), 3),
+                    () -> desiredturnspeed*driveStick.getRawAxis(rotationAxis), 
+                    () -> robotCentric.getAsBoolean()
+                )
+            );
+        }
             
-        );
 
         // Configure the button bindings
         configureButtonBindings();
@@ -199,19 +219,19 @@ public class RobotContainer {
         //DriveStick Bumpers/Triggers
         //Shooter
         final JoystickButton shooterOut =new JoystickButton(driveStick, XboxController.Button.kLeftBumper.value);
-        shooterOut.onTrue(new ShooterOut(s_ShooterOne, s_ShooterTwo, s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterOut.onTrue(new ShooterOut(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterOut.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
     
         final JoystickButton shooterIn = new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
-        shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo, s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterIn.onFalse(new ShooterInStop(s_ShooterOne, s_ShooterTwo));
 
         final JoystickButton shooterOutTrap = new JoystickButton(driveStick, XboxController.Button.kB.value);
-        shooterOutTrap.onTrue(new ShooterOutTrap(s_ShooterOne, s_ShooterTwo, s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterOutTrap.onTrue(new ShooterOutTrap(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterOutTrap.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
 
         final JoystickButton shooterOutAmp = new JoystickButton(driveStick, XboxController.Button.kA.value);
-        shooterOutAmp.onTrue(new ShooterOutTrap(s_ShooterOne, s_ShooterTwo, s_ShooterJaws).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterOutAmp.onTrue(new ShooterOutAmp(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterOutAmp.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
 
         //Trigger
@@ -233,6 +253,25 @@ public class RobotContainer {
         // s_Swerve.applyRequest(() -> brake);
 
         
+        /**************************************
+         * Logitect X3D Pro Flight Contorller *
+         **************************************/
+        final JoystickButton j_triggerOut = new JoystickButton(joystick, Joystick.ButtonType.kTrigger.value);
+        j_triggerOut.onTrue(new TriggerOut(1, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        j_triggerOut.onFalse(new TriggerOut(0, s_ShooterTrigger));
+
+        final JoystickButton j_triggerIn = new JoystickButton(joystick, 3);
+        j_triggerIn.onTrue(new TriggerOut(-0.25, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        j_triggerIn.onFalse(new TriggerOut(0, s_ShooterTrigger));
+
+        final JoystickButton j_shooterOut =new JoystickButton(driveStick, 2);
+        j_shooterOut.onTrue(new ShooterOut(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        j_shooterOut.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
+    
+        final JoystickButton j_shooterIn = new JoystickButton(driveStick, 5);
+        j_shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        j_shooterIn.onFalse(new ShooterInStop(s_ShooterOne, s_ShooterTwo));
+
     }
 
     /**

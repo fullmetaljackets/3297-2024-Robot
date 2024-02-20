@@ -14,7 +14,16 @@ public class ShooterOut extends ParallelCommandGroup {
 
         addCommands(
             //shooter motor 1&2 out
-            // new ShooterClose(s_ShooterJaws),
+            new ShooterClose(s_ShooterJaws),
+            new Shooter1Out(-1, s_ShooterOne),
+            new Shooter2Out(-1, s_ShooterTwo)
+        );
+    }
+
+    public ShooterOut(ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo){
+
+        addCommands(
+            //shooter motor 1&2 out
             new Shooter1Out(-1, s_ShooterOne),
             new Shooter2Out(-1, s_ShooterTwo)
         );

@@ -19,7 +19,7 @@ public class ScoreTrapPrep extends SequentialCommandGroup {
         //Extend arm
         new ArmExtend(s_Arm),
         //Raise Elevator
-        new ElevatorRaise(-0.25,s_Elevator)
+        new ElevatorRaise(-0.25,s_Elevator).withTimeout(2)
         );
     }
 }
