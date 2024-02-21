@@ -87,7 +87,7 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driveStick, robotcentric);
 
     //Speed Controls
-    private final double desiredspeed = 1;
+    private final double desiredspeed = 2;
     private final double desiredturnspeed = desiredspeed*0.4;
 
     /* Subsystems */
@@ -218,11 +218,11 @@ public class RobotContainer {
          */
         //DriveStick Bumpers/Triggers
         //Shooter
-        final JoystickButton shooterOut =new JoystickButton(driveStick, XboxController.Button.kLeftBumper.value);
+        final JoystickButton shooterOut =new JoystickButton(driveStick, XboxController.Button.kA.value);
         shooterOut.onTrue(new ShooterOut(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterOut.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
     
-        final JoystickButton shooterIn = new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
+        final JoystickButton shooterIn = new JoystickButton(driveStick, XboxController.Button.kLeftBumper.value);
         shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterIn.onFalse(new ShooterInStop(s_ShooterOne, s_ShooterTwo));
 
@@ -230,7 +230,7 @@ public class RobotContainer {
         shooterOutTrap.onTrue(new ShooterOutTrap(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterOutTrap.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
 
-        final JoystickButton shooterOutAmp = new JoystickButton(driveStick, XboxController.Button.kA.value);
+        final JoystickButton shooterOutAmp = new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
         shooterOutAmp.onTrue(new ShooterOutAmp(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterOutAmp.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
 
@@ -239,7 +239,7 @@ public class RobotContainer {
         final JoystickButton triggerIn = new JoystickButton(driveStick, XboxController.Button.kX.value);
         triggerIn.onTrue(new TriggerIn(-0.25, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         triggerIn.onFalse(new TriggerIn(0, s_ShooterTrigger));
-        triggerIn.onFalse(new FloorIntakeIn(0, s_FloorIntake)); // trying to shut down floorintake motor that starts mysteriously with trigger in
+        // triggerIn.onFalse(new FloorIntakeIn(0, s_FloorIntake)); // trying to shut down floorintake motor that starts mysteriously with trigger in
 
         final JoystickButton triggerOut = new JoystickButton(driveStick, XboxController.Button.kY.value);
         triggerOut.onTrue(new TriggerOut(1, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));

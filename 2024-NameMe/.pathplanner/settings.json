@@ -11,9 +11,9 @@
     "Blue Autos",
     "Test"
   ],
-  "defaultMaxVel": 6.0,
-  "defaultMaxAccel": 6.0,
-  "defaultMaxAngVel": 1000.0,
-  "defaultMaxAngAccel": 1400.0,
-  "maxModuleSpeed": 4.5
+  "defaultMaxVel": 2.0,
+  "defaultMaxAccel": 2.0,
+  "defaultMaxAngVel": 500.0,
+  "defaultMaxAngAccel": 740.0,
+  "maxModuleSpeed": 2.0
 }

@@ -8,12 +8,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Trap"
+            "pathName": "Test #1"
           }
         }
       ]
     }
   },
-  "folder": "Test",
+  "folder": null,
   "choreoAuto": false
 }
