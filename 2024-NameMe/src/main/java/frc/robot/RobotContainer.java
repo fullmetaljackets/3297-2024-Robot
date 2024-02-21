@@ -71,7 +71,7 @@ public class RobotContainer {
     private final int zerogyro = XboxController.Button.kStart.value;
     private final int zerogyro2 = XboxController.Button.kLeftStick.value;
  
-    private final boolean useJoystick = true;
+    private final boolean useJoystick = false;
     private final int j_translationAxis = Joystick.AxisType.kX.value;
     private final int j_strafeAxis = Joystick.AxisType.kY.value;
     private int j_rotationAxis = Joystick.AxisType.kZ.value;
@@ -264,11 +264,11 @@ public class RobotContainer {
         j_triggerIn.onTrue(new TriggerOut(-0.25, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         j_triggerIn.onFalse(new TriggerOut(0, s_ShooterTrigger));
 
-        final JoystickButton j_shooterOut =new JoystickButton(driveStick, 2);
+        final JoystickButton j_shooterOut =new JoystickButton(joystick, 2);
         j_shooterOut.onTrue(new ShooterOut(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         j_shooterOut.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
     
-        final JoystickButton j_shooterIn = new JoystickButton(driveStick, 5);
+        final JoystickButton j_shooterIn = new JoystickButton(joystick, 5);
         j_shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         j_shooterIn.onFalse(new ShooterInStop(s_ShooterOne, s_ShooterTwo));
 
