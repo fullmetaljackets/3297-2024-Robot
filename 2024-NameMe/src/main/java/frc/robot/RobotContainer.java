@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.autos.exampleAuto;
 import frc.robot.commands.ArmExtend;
 import frc.robot.commands.ArmRetract;
 import frc.robot.commands.ArmToggle;
@@ -223,7 +224,7 @@ public class RobotContainer {
         shooterOut.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
     
         final JoystickButton shooterIn = new JoystickButton(driveStick, XboxController.Button.kLeftBumper.value);
-        shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterIn.onFalse(new ShooterInStop(s_ShooterOne, s_ShooterTwo));
 
         final JoystickButton shooterOutTrap = new JoystickButton(driveStick, XboxController.Button.kB.value);
@@ -231,7 +232,7 @@ public class RobotContainer {
         shooterOutTrap.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
 
         final JoystickButton shooterOutAmp = new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);
-        shooterOutAmp.onTrue(new ShooterOutAmp(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterOutAmp.onTrue(new ShooterOutAmp(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterOutAmp.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
 
         //Trigger
@@ -256,6 +257,7 @@ public class RobotContainer {
         /**************************************
          * Logitect X3D Pro Flight Contorller *
          **************************************/
+/*
         final JoystickButton j_triggerOut = new JoystickButton(joystick, Joystick.ButtonType.kTrigger.value);
         j_triggerOut.onTrue(new TriggerOut(1, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         j_triggerOut.onFalse(new TriggerOut(0, s_ShooterTrigger));
@@ -271,7 +273,7 @@ public class RobotContainer {
         final JoystickButton j_shooterIn = new JoystickButton(joystick, 5);
         j_shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         j_shooterIn.onFalse(new ShooterInStop(s_ShooterOne, s_ShooterTwo));
-
+*/
     }
 
     /**
@@ -281,14 +283,14 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        //return new exampleAuto(s_Swerve); 
+        return new exampleAuto(s_Swerve); 
 
         // return new PathPlannerAuto("Test 2");
 
         // PathPlannerPath  path = PathPlannerPath.fromPathFile("Test path 1");
         // return AutoBuilder.followPath(path);
 
-        return autoChooser.getSelected();
+        // return autoChooser.getSelected();
     }
 
 }

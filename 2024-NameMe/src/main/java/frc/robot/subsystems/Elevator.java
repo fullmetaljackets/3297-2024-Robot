@@ -19,6 +19,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -30,6 +31,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class Elevator extends SubsystemBase{ 
     private CANSparkMax elevatorMotor;
+    private DigitalInput topLimitSwitch = new DigitalInput(0);
+    private DigitalInput bottomLimitSwitch = new DigitalInput(1);
 
     // FEP (Find Elevator Position)
     private SparkPIDController m_pidController;
@@ -103,7 +106,26 @@ public class Elevator extends SubsystemBase{
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void my_motorrun(double setpoint){
-        elevatorMotor.set(setpoint);
+        // elevatorMotor.set(setpoint);
+        if (setpoint > 0) {
+            if (topLimitSwitch.get()) {
+                // We're going up and top limit is reached so stop
+//                elevatorMotor.set(0);
+                elevatorMotor.set(setpoint);
+            } else {
+                // We're going up but top limit is not tripped so go at command speed
+                elevatorMotor.set(setpoint);
+            }
+        } else {
+            if (bottomLimitSwitch.get()) {
+                // We're going down and bottom limit is reached so stop
+//                elevatorMotor.set(0);
+                elevatorMotor.set(setpoint);
+            } else {
+                // We're going down but bottom limit is not tripped so go at command speed
+                elevatorMotor.set(setpoint);
+            }
+        }
 
         // // FEP start
         // // read PID coefficients from SmartDashboard
