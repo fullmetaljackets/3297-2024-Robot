@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -13,7 +12,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.autos.exampleAuto;
+import frc.robot.autos.longRightAutoBlue;
+import frc.robot.autos.shortRightAutoBlue;
+import frc.robot.autos.shortRightDelayAutoBlue;
 import frc.robot.commands.ArmExtend;
 import frc.robot.commands.ArmRetract;
 import frc.robot.commands.ArmToggle;
@@ -109,7 +110,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        NamedCommands.registerCommand("shootSpeaker", new ShooterOutAuto(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger, s_ShooterJaws));
+        NamedCommands.registerCommand("shootSpeaker", new ShooterOutAuto(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger));
         NamedCommands.registerCommand("floorIntakeNote", new FloorIntakeNote(s_FloorIntake));
         NamedCommands.registerCommand("floorAmpShoot", new FloorAmpIn(0.25, s_FloorIntake));
         NamedCommands.registerCommand("zeroGyro", new ZeroPigeon(s_Swerve).withTimeout(1));
@@ -155,8 +156,17 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
 
-        autoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        /* Pathplanner Auto */
+        // autoChooser = AutoBuilder.buildAutoChooser();
+        // SmartDashboard.putData("Auto Chooser", autoChooser);
+
+        autoChooser = new SendableChooser<>();
+        autoChooser.addOption("Short Right Blue", new shortRightAutoBlue(s_Swerve, s_ShooterOne, s_ShooterTwo, s_ShooterTrigger));
+        autoChooser.addOption("Long Right Blue", new longRightAutoBlue(s_Swerve, s_ShooterOne, s_ShooterTwo, s_ShooterTrigger));
+        autoChooser.addOption("Short Right Dalay Blue", new shortRightDelayAutoBlue(s_Swerve, s_ShooterOne, s_ShooterTwo, s_ShooterTrigger));
+        autoChooser.setDefaultOption("AutonousCommand", getAutonomousCommand());
+        SmartDashboard.putData("Auto Mode", autoChooser);
+      
     }
     
 
@@ -283,14 +293,14 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new exampleAuto(s_Swerve); 
+        // return new shortRightAutoBlue(s_Swerve); 
 
         // return new PathPlannerAuto("Test 2");
 
         // PathPlannerPath  path = PathPlannerPath.fromPathFile("Test path 1");
         // return AutoBuilder.followPath(path);
 
-        // return autoChooser.getSelected();
+        return autoChooser.getSelected();
     }
 
 }
