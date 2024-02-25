@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.longRightAutoBlue;
 import frc.robot.autos.shortRightAutoBlue;
+import frc.robot.autos.shortRightAutoBlueTest;
 import frc.robot.autos.shortRightDelayAutoBlue;
 import frc.robot.commands.ArmExtend;
 import frc.robot.commands.ArmRetract;
@@ -164,6 +165,7 @@ public class RobotContainer {
         autoChooser.addOption("Short Right Blue", new shortRightAutoBlue(s_Swerve, s_ShooterOne, s_ShooterTwo, s_ShooterTrigger));
         autoChooser.addOption("Long Right Blue", new longRightAutoBlue(s_Swerve, s_ShooterOne, s_ShooterTwo, s_ShooterTrigger));
         autoChooser.addOption("Short Right Dalay Blue", new shortRightDelayAutoBlue(s_Swerve, s_ShooterOne, s_ShooterTwo, s_ShooterTrigger));
+        autoChooser.addOption("short Right Blue Test", new shortRightAutoBlueTest(s_Swerve, s_ShooterOne, s_ShooterTwo, s_ShooterTrigger));
         autoChooser.setDefaultOption("AutonousCommand", getAutonomousCommand());
         SmartDashboard.putData("Auto Mode", autoChooser);
       

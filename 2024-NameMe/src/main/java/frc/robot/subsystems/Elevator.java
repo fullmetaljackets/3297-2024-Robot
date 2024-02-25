@@ -110,8 +110,8 @@ public class Elevator extends SubsystemBase{
         if (setpoint > 0) {
             if (topLimitSwitch.get()) {
                 // We're going up and top limit is reached so stop
-//                elevatorMotor.set(0);
-                elevatorMotor.set(setpoint);
+               elevatorMotor.set(0);
+                // elevatorMotor.set(setpoint);
             } else {
                 // We're going up but top limit is not tripped so go at command speed
                 elevatorMotor.set(setpoint);
@@ -119,7 +119,7 @@ public class Elevator extends SubsystemBase{
         } else {
             if (bottomLimitSwitch.get()) {
                 // We're going down and bottom limit is reached so stop
-//                elevatorMotor.set(0);
+            //    elevatorMotor.set(0);
                 elevatorMotor.set(setpoint);
             } else {
                 // We're going down but bottom limit is not tripped so go at command speed
