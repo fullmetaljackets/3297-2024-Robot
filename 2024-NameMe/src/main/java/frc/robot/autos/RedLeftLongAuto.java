@@ -22,23 +22,23 @@ import frc.robot.subsystems.ShooterTrigger;
 import frc.robot.subsystems.ShooterTwo;
 import frc.robot.subsystems.Swerve;
 
-public class shortRightAutoBlueTest extends SequentialCommandGroup {
+public class RedLeftLongAuto extends SequentialCommandGroup {
 
-    public shortRightAutoBlueTest(Swerve s_Swerve, ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo, ShooterTrigger s_ShooterTrigger){
+    public RedLeftLongAuto(Swerve s_Swerve, ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo, ShooterTrigger s_ShooterTrigger){
         TrajectoryConfig config =
             new TrajectoryConfig(
                     Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                     Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                 .setKinematics(Constants.Swerve.swerveKinematics);
 
-        Trajectory exampleTrajectoryShort =
+        Trajectory myTrajectory =
             TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
                 new Pose2d(.0, 0, new Rotation2d(0)),
-                // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(-2.5, 1)),
-                // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(-4, -1.25, Rotation2d.fromDegrees(50)),
+                // Back up 2.4 meters
+                List.of(new Translation2d(-2, -1.33)),
+                // End 6.4 meters towards middle of field facing forward
+                new Pose2d(-6.33, 3, Rotation2d.fromDegrees(-50)),
                 config);
 
         var thetaController =
@@ -48,7 +48,7 @@ public class shortRightAutoBlueTest extends SequentialCommandGroup {
 
         SwerveControllerCommand swerveControllerCommand =
             new SwerveControllerCommand(
-                exampleTrajectoryShort,
+                myTrajectory,
                 s_Swerve::getPose,
                 Constants.Swerve.swerveKinematics,
                 new PIDController(Constants.AutoConstants.kPXController, 0, 0),
@@ -59,7 +59,14 @@ public class shortRightAutoBlueTest extends SequentialCommandGroup {
 
 
         addCommands(
-            new InstantCommand(() -> s_Swerve.setPose(exampleTrajectoryShort.getInitialPose())),
+            // Set our initial position
+            new InstantCommand(() -> s_Swerve.setPose(myTrajectory.getInitialPose())),
+            // Fire up shooter motors (assumes coast mode)
+            new ShooterOut(s_ShooterOne, s_ShooterTwo ).withTimeout(2),
+            // Fire up shooter and trigger motors to shoot the note
+            new ShooterOutAuto(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger).withTimeout(1),
+            // new WaitCommand (1),    // maybe not needed
+            // Now move to desired position
             swerveControllerCommand
         );
     }

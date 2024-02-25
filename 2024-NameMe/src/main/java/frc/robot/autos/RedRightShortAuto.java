@@ -13,6 +13,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.groups.ShooterOut;
 import frc.robot.commands.groups.ShooterOutAuto;
@@ -21,25 +22,24 @@ import frc.robot.subsystems.ShooterTrigger;
 import frc.robot.subsystems.ShooterTwo;
 import frc.robot.subsystems.Swerve;
 
-public class shortRightAutoBlue extends SequentialCommandGroup {
+public class RedRightShortAuto extends SequentialCommandGroup {
 
-    public shortRightAutoBlue(Swerve s_Swerve, ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo, ShooterTrigger s_ShooterTrigger){
+    public RedRightShortAuto(Swerve s_Swerve, ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo, ShooterTrigger s_ShooterTrigger){
         TrajectoryConfig config =
             new TrajectoryConfig(
                     Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                     Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                 .setKinematics(Constants.Swerve.swerveKinematics);
 
-        Trajectory exampleTrajectoryShort =
+        Trajectory myTrajectory =
             TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
-                new Pose2d(.72, 4.36, new Rotation2d(120)),
-                // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(1.4, 2)),
-                // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(2.6, 1.5, new Rotation2d(0)),
+                new Pose2d(.0, 0, new Rotation2d(0)),
+                // Back up 0.66  meters
+                List.of(new Translation2d(-0.5, 0.5)),
+                // End 3.5 meters towards middle of field facing forward
+                new Pose2d(-2.33, -2.66, Rotation2d.fromDegrees(50)),
                 config);
-
 
         var thetaController =
             new ProfiledPIDController(
@@ -48,7 +48,7 @@ public class shortRightAutoBlue extends SequentialCommandGroup {
 
         SwerveControllerCommand swerveControllerCommand =
             new SwerveControllerCommand(
-                exampleTrajectoryShort,
+                myTrajectory,
                 s_Swerve::getPose,
                 Constants.Swerve.swerveKinematics,
                 new PIDController(Constants.AutoConstants.kPXController, 0, 0),
@@ -59,11 +59,14 @@ public class shortRightAutoBlue extends SequentialCommandGroup {
 
 
         addCommands(
-            new ShooterOut(s_ShooterOne, s_ShooterTwo).withTimeout(1),
-            // new WaitCommand(1),
-            new ShooterOutAuto( s_ShooterOne, s_ShooterTwo , s_ShooterTrigger).withTimeout(1),
-            // new ShooterOutAuto(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger)
-            new InstantCommand(() -> s_Swerve.setPose(exampleTrajectoryShort.getInitialPose())),
+            // Set our initial position
+            new InstantCommand(() -> s_Swerve.setPose(myTrajectory.getInitialPose())),
+            // Fire up shooter motors (assumes coast mode)
+            new ShooterOut(s_ShooterOne, s_ShooterTwo ).withTimeout(2),
+            // Fire up shooter and trigger motors to shoot the note
+            new ShooterOutAuto(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger).withTimeout(1),
+            // new WaitCommand (1),    // maybe not needed
+            // Now move to desired position
             swerveControllerCommand
         );
     }

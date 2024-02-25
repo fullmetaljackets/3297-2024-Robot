@@ -6,7 +6,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -22,45 +21,43 @@ import frc.robot.subsystems.ShooterTrigger;
 import frc.robot.subsystems.ShooterTwo;
 import frc.robot.subsystems.Swerve;
 
-public class shortRightDelayAutoBlue extends SequentialCommandGroup {
+public class RedRightShortDelayAuto extends SequentialCommandGroup {
 
-    public shortRightDelayAutoBlue(Swerve s_Swerve, ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo, ShooterTrigger s_ShooterTrigger){
+    public RedRightShortDelayAuto(Swerve s_Swerve, ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo, ShooterTrigger s_ShooterTrigger){
         TrajectoryConfig config =
             new TrajectoryConfig(
                     Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                     Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                 .setKinematics(Constants.Swerve.swerveKinematics);
 
-        Trajectory exampleTrajectoryShort1 =
-            TrajectoryGenerator.generateTrajectory(
-                // Start at the origin facing the +X direction
-                new Pose2d(.0, 0, new Rotation2d(0)),
-                // Pass through these two interior waypoints, making an 's' curve path
-                // List.of(new Translation2d(-2.5, 1)),
-                List.of(),
-                // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(-2.5, 1, Rotation2d.fromDegrees(0)),
-                config);
-
-        Trajectory exampleTrajectoryShort2 =
-            TrajectoryGenerator.generateTrajectory(
-                // Start at the origin facing the +X direction
-                new Pose2d(-2.5, 1, new Rotation2d(0)),
-                // Pass through these two interior waypoints, making an 's' curve path
-                // List.of(new Translation2d(-4, -1.25)),
-                List.of(),
-                // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(-4, -1.25, Rotation2d.fromDegrees(50)),
-                config);
-
-        var thetaController =
+            Trajectory myTrajectory1 =
+                TrajectoryGenerator.generateTrajectory(
+                    // Start at the origin facing the +X direction
+                    new Pose2d(.0, 0, new Rotation2d(0)),
+                    // Pass through these two interior waypoints, making an 's' curve path
+                    List.of(),
+                    // Back up 0.66  meters
+                    new Pose2d(-0.5, 0.5, Rotation2d.fromDegrees(0)),
+                    config);
+    
+            Trajectory myTrajectory2 =
+                TrajectoryGenerator.generateTrajectory(
+                    // Start at the origin facing the +X direction
+                    new Pose2d(-0.5, 0.5, new Rotation2d(0)),
+                    // Pass through these two interior waypoints, making an 's' curve path
+                    List.of(),
+                    // End 3.5 meters towards middle of field facing forward
+                    new Pose2d(-2.33, -2.66, Rotation2d.fromDegrees(50)),
+                    config);
+    
+            var thetaController =
             new ProfiledPIDController(
                 Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         SwerveControllerCommand swerveControllerCommand1 =
             new SwerveControllerCommand(
-                exampleTrajectoryShort1,
+                myTrajectory1,
                 s_Swerve::getPose,
                 Constants.Swerve.swerveKinematics,
                 new PIDController(Constants.AutoConstants.kPXController, 0, 0),
@@ -71,7 +68,7 @@ public class shortRightDelayAutoBlue extends SequentialCommandGroup {
 
         SwerveControllerCommand swerveControllerCommand2 =
             new SwerveControllerCommand(
-                exampleTrajectoryShort2,
+                myTrajectory2,
                 s_Swerve::getPose,
                 Constants.Swerve.swerveKinematics,
                 new PIDController(Constants.AutoConstants.kPXController, 0, 0),
@@ -82,14 +79,17 @@ public class shortRightDelayAutoBlue extends SequentialCommandGroup {
 
 
         addCommands(
-            new InstantCommand(() -> s_Swerve.setPose(exampleTrajectoryShort1.getInitialPose())),
+            // Set our initial position
+            new InstantCommand(() -> s_Swerve.setPose(myTrajectory1.getInitialPose())),
+            // Fire up shooter motors (assumes coast mode)
             new ShooterOut(s_ShooterOne, s_ShooterTwo ).withTimeout(2),
-            // new WaitCommand (1),
+            // Fire up shooter and trigger motors to shoot the note
             new ShooterOutAuto(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger).withTimeout(1),
-            new WaitCommand (3),
+            // new WaitCommand (1),
+            // Move to the side and wait 
             swerveControllerCommand1,
             new WaitCommand (8),
-            // new InstantCommand(() -> s_Swerve.setPose(exampleTrajectoryShort2.getInitialPose())),
+            // Move to final position
             swerveControllerCommand2
         );
     }
