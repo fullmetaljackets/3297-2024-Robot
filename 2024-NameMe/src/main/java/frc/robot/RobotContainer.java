@@ -37,9 +37,6 @@ import frc.robot.commands.ArmRetract;
 import frc.robot.commands.ArmToggle;
 import frc.robot.commands.ElevatorLower;
 import frc.robot.commands.ElevatorRaise;
-import frc.robot.commands.FloorAmpIn;
-import frc.robot.commands.FloorIntakeIn;
-import frc.robot.commands.FloorIntakeOut;
 import frc.robot.commands.PanToggle;
 import frc.robot.commands.Shooter1In;
 import frc.robot.commands.Shooter1Out;
@@ -50,7 +47,9 @@ import frc.robot.commands.ShooterOpen;
 import frc.robot.commands.TriggerIn;
 import frc.robot.commands.TriggerOut;
 import frc.robot.commands.ZeroPigeon;
-import frc.robot.commands.groups.FloorIntakeNote;
+import frc.robot.commands.archive.FloorAmpIn;
+import frc.robot.commands.archive.FloorIntakeIn;
+import frc.robot.commands.archive.FloorIntakeOut;
 import frc.robot.commands.groups.ShooterIn;
 import frc.robot.commands.groups.ShooterInStop;
 import frc.robot.commands.groups.ShooterOut;
@@ -58,16 +57,17 @@ import frc.robot.commands.groups.ShooterOutAmp;
 import frc.robot.commands.groups.ShooterOutAuto;
 import frc.robot.commands.groups.ShooterOutStop;
 import frc.robot.commands.groups.ShooterOutTrap;
+import frc.robot.commands.groups.archive.FloorIntakeNote;
 import frc.robot.commands.swerve.TeleopSwerve;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.FloorIntake;
 import frc.robot.subsystems.ShooterJaws;
 import frc.robot.subsystems.ShooterOne;
 import frc.robot.subsystems.ShooterPan;
 import frc.robot.subsystems.ShooterTrigger;
 import frc.robot.subsystems.ShooterTwo;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.archive.FloorIntake;
 
 
 /**
@@ -113,7 +113,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     public final Elevator s_Elevator = new Elevator();
     private final Arm s_Arm = new Arm();
-    private final FloorIntake s_FloorIntake = new FloorIntake();
+    // private final FloorIntake s_FloorIntake = new FloorIntake();
     private final ShooterOne s_ShooterOne = new ShooterOne();
     private final ShooterTwo s_ShooterTwo = new ShooterTwo();
     private final ShooterTrigger s_ShooterTrigger = new ShooterTrigger();
@@ -128,12 +128,12 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         NamedCommands.registerCommand("shootSpeaker", new ShooterOutAuto(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger));
-        NamedCommands.registerCommand("floorIntakeNote", new FloorIntakeNote(s_FloorIntake));
-        NamedCommands.registerCommand("floorAmpShoot", new FloorAmpIn(0.25, s_FloorIntake));
+        // NamedCommands.registerCommand("floorIntakeNote", new FloorIntakeNote(s_FloorIntake));
+        // NamedCommands.registerCommand("floorAmpShoot", new FloorAmpIn(0.25, s_FloorIntake));
         NamedCommands.registerCommand("zeroGyro", new ZeroPigeon(s_Swerve).withTimeout(1));
 
-        NamedCommands.registerCommand("floorIntakeIn", new FloorIntakeIn(0.25, s_FloorIntake));
-        NamedCommands.registerCommand("floorIntakeOut", new FloorIntakeOut(-0.25, s_FloorIntake));
+        // NamedCommands.registerCommand("floorIntakeIn", new FloorIntakeIn(0.25, s_FloorIntake));
+        // NamedCommands.registerCommand("floorIntakeOut", new FloorIntakeOut(-0.25, s_FloorIntake));
         NamedCommands.registerCommand("elevatorRaise", new ElevatorRaise(0.25, s_Elevator));
         NamedCommands.registerCommand("elevatorLower", new ElevatorLower(-0.25, s_Elevator));
         NamedCommands.registerCommand("armExtend", new ArmExtend(s_Arm));

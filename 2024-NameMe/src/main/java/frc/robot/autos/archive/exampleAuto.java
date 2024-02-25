@@ -1,4 +1,4 @@
-package frc.robot.autos;
+package frc.robot.autos.archive;
 
 import java.util.List;
 
