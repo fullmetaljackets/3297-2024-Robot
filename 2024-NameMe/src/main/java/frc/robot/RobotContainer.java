@@ -28,10 +28,6 @@ import frc.robot.autos.RedRightLongAuto;
 import frc.robot.autos.RedRightLongDelayAuto;
 import frc.robot.autos.RedRightShortAuto;
 import frc.robot.autos.RedRightShortDelayAuto;
-import frc.robot.autos.archive.longRightAutoBlue;
-import frc.robot.autos.archive.shortRightAutoBlue;
-import frc.robot.autos.archive.shortRightAutoBlueTest;
-import frc.robot.autos.archive.shortRightDelayAutoBlue;
 import frc.robot.commands.ArmExtend;
 import frc.robot.commands.ArmRetract;
 import frc.robot.commands.ArmToggle;
@@ -47,9 +43,6 @@ import frc.robot.commands.ShooterOpen;
 import frc.robot.commands.TriggerIn;
 import frc.robot.commands.TriggerOut;
 import frc.robot.commands.ZeroPigeon;
-import frc.robot.commands.archive.FloorAmpIn;
-import frc.robot.commands.archive.FloorIntakeIn;
-import frc.robot.commands.archive.FloorIntakeOut;
 import frc.robot.commands.groups.ShooterIn;
 import frc.robot.commands.groups.ShooterInStop;
 import frc.robot.commands.groups.ShooterOut;
@@ -57,7 +50,6 @@ import frc.robot.commands.groups.ShooterOutAmp;
 import frc.robot.commands.groups.ShooterOutAuto;
 import frc.robot.commands.groups.ShooterOutStop;
 import frc.robot.commands.groups.ShooterOutTrap;
-import frc.robot.commands.groups.archive.FloorIntakeNote;
 import frc.robot.commands.swerve.TeleopSwerve;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
@@ -67,7 +59,6 @@ import frc.robot.subsystems.ShooterPan;
 import frc.robot.subsystems.ShooterTrigger;
 import frc.robot.subsystems.ShooterTwo;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.archive.FloorIntake;
 
 
 /**
@@ -217,7 +208,6 @@ public class RobotContainer {
         zeroGyro3.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 
         // robotCentric.
-
         /*
          * COPILOT
          */
@@ -244,7 +234,9 @@ public class RobotContainer {
 
         // Shooter
         //Copilot Bumpers/Triggers
-
+        final JoystickButton shooterOut =new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
+        shooterOut.onTrue(new ShooterOut(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterOut.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
         // Floor Intake, Not Testing/Working, No Motors Yet 
         /*final JoystickButton floorIntakeNote =new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
         floorIntakeNote.onTrue(new FloorAmpIn(0.80, s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
@@ -263,16 +255,13 @@ public class RobotContainer {
          */
         //DriveStick Bumpers/Triggers
         //Shooter
-        final JoystickButton shooterOut =new JoystickButton(driveStick, XboxController.Button.kA.value);
-        shooterOut.onTrue(new ShooterOut(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-        shooterOut.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
     
         final JoystickButton shooterIn = new JoystickButton(driveStick, XboxController.Button.kLeftBumper.value);
         shooterIn.onTrue(new ShooterIn(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterIn.onFalse(new ShooterInStop(s_ShooterOne, s_ShooterTwo));
 
         final JoystickButton shooterOutTrap = new JoystickButton(driveStick, XboxController.Button.kB.value);
-        shooterOutTrap.onTrue(new ShooterOutTrap(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        shooterOutTrap.onTrue(new ShooterOutTrap(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterOutTrap.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
 
         final JoystickButton shooterOutAmp = new JoystickButton(driveStick, XboxController.Button.kRightBumper.value);

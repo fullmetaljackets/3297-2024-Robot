@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.commands.ZeroPigeon;
 import frc.robot.commands.groups.ShooterOut;
 import frc.robot.commands.groups.ShooterOutAuto;
 import frc.robot.subsystems.ShooterOne;
@@ -41,6 +42,16 @@ public class RedRightShortAuto extends SequentialCommandGroup {
                 new Pose2d(-2.33, -2.66, Rotation2d.fromDegrees(50)),
                 config);
 
+// choreo - like pathplanner
+/*
+If (pigeon getyaw-getvalue >= MAX && pigeon.getyaw.getValue >= MIN >
+    ( go closer to your min whatever direction )
+ else if (pigeon. getyaw.getvalue <= MAx && pigeon.getyaw.getvalue <= MIN)
+    ( Go closer to your max whatever direction 
+else if (pigeon.getyaw-getvalue <= MAx 8& pigeon.getyaw.getvalue >= MIN)
+    Stay here 
+} else { Stay here }
+*/
         var thetaController =
             new ProfiledPIDController(
                 Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
@@ -67,7 +78,8 @@ public class RedRightShortAuto extends SequentialCommandGroup {
             new ShooterOutAuto(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger).withTimeout(1),
             // new WaitCommand (1),    // maybe not needed
             // Now move to desired position
-            swerveControllerCommand
+            swerveControllerCommand,
+            new ZeroPigeon(s_Swerve).withTimeout(0.1)
         );
     }
 }

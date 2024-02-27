@@ -10,7 +10,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DriverStation;
 
 /**
- *
+ * Bottom motor
  */
 public class ShooterOne extends SubsystemBase{ 
    
