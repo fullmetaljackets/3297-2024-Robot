@@ -13,8 +13,8 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.commands.ZeroPigeon;
 import frc.robot.commands.groups.ShooterOut;
 import frc.robot.commands.groups.ShooterOutAuto;
 import frc.robot.subsystems.ShooterOne;
@@ -67,7 +67,8 @@ public class BlueLeftLongAuto extends SequentialCommandGroup {
             new ShooterOutAuto(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger).withTimeout(1),
             // new WaitCommand (1),    // maybe not needed
             // Now move to desired position
-            swerveControllerCommand
+            swerveControllerCommand,
+            new ZeroPigeon(s_Swerve).withTimeout(0.1)
         );
     }
 }
