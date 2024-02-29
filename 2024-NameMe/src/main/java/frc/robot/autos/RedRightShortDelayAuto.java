@@ -6,6 +6,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -37,14 +38,14 @@ public class RedRightShortDelayAuto extends SequentialCommandGroup {
                     new Pose2d(.0, 0, new Rotation2d(0)),
                     // Pass through these two interior waypoints, making an 's' curve path
                     List.of(),
-                    // Back up 0.66  meters
-                    new Pose2d(-0.5, 0.5, Rotation2d.fromDegrees(0)),
+                    // Back up 0.33  meters
+                    new Pose2d(-0.33, 0, Rotation2d.fromDegrees(0)),
                     config);
     
             Trajectory myTrajectory2 =
                 TrajectoryGenerator.generateTrajectory(
                     // Start at the origin facing the +X direction
-                    new Pose2d(-0.5, 0.5, new Rotation2d(0)),
+                    new Pose2d(-0.33, 0, new Rotation2d(0)),
                     // Pass through these two interior waypoints, making an 's' curve path
                     List.of(),
                     // End 3.5 meters towards middle of field facing forward

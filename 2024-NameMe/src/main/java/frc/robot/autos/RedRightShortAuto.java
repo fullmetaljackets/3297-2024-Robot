@@ -36,8 +36,8 @@ public class RedRightShortAuto extends SequentialCommandGroup {
             TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
                 new Pose2d(.0, 0, new Rotation2d(0)),
-                // Back up 0.66  meters
-                List.of(new Translation2d(-0.5, 0.5)),
+                // Back up 0.33  meters
+                List.of(new Translation2d(-0.33, 0)),
                 // End 3.5 meters towards middle of field facing forward
                 new Pose2d(-2.33, -2.66, Rotation2d.fromDegrees(50)),
                 config);

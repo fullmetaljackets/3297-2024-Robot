@@ -47,8 +47,8 @@ public class RedLeftLongDelayAuto extends SequentialCommandGroup {
                     new Pose2d(-2, -1.33, new Rotation2d(0)),
                     // Pass through these two interior waypoints, making an 's' curve path
                     List.of(),
-                    // End 6.4 meters towards middle of field facing forward
-                    new Pose2d(-6.33, 3, Rotation2d.fromDegrees(-50)),
+                    // End 5 meters towards middle of field facing forward
+                    new Pose2d(-5.33, 2, Rotation2d.fromDegrees(-50)),
                     config);
     
             var thetaController =

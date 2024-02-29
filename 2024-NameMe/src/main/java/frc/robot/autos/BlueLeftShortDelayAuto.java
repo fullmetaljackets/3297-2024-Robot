@@ -6,6 +6,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -35,20 +36,20 @@ public class BlueLeftShortDelayAuto extends SequentialCommandGroup {
                 TrajectoryGenerator.generateTrajectory(
                     // Start at the origin facing the +X direction
                     new Pose2d(.0, 0, new Rotation2d(0)),
-                    // Pass through these two interior waypoints, making an 's' curve path
+                    // No mid points
                     List.of(),
-                    // Back up 0.66 meters
-                    new Pose2d(-0.66, -0.33, Rotation2d.fromDegrees(0)),
+                    // Back up 0.33 meters from the left side of speaker
+                    new Pose2d(-0.33, 0, Rotation2d.fromDegrees(0)),
                     config);
     
             Trajectory myTrajectory2 =
                 TrajectoryGenerator.generateTrajectory(
-                    // Start at the origin facing the +X direction
-                    new Pose2d(-0.66, -0.33, new Rotation2d(0)),
-                    // Pass through these two interior waypoints, making an 's' curve path
+                    // Start 0.33 meters from the left side of speaker
+                    new Pose2d(-0.33, 0, Rotation2d.fromDegrees(0)),
+                    // No mid points
                     List.of(),
                     // End 3 meters towards middle of field facing forward
-                    new Pose2d(-2.66, 2, Rotation2d.fromDegrees(-50)),
+                    new Pose2d(-2, 2.66, Rotation2d.fromDegrees(-50)),
                     config);
     
             var thetaController =

@@ -36,10 +36,10 @@ public class RedRightLongAuto extends SequentialCommandGroup {
             TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
                 new Pose2d(.0, 0, new Rotation2d(0)),
-                // Back up 0.66  meters
-                List.of(new Translation2d(-0.5, 0.5)),
-                // End 6.33 meters towards middle of field facing forward
-                new Pose2d(-4, -5, Rotation2d.fromDegrees(50)),
+                // Back up 0.33  meters
+                List.of(new Translation2d(-0.33, 0)),
+                // End 5.2 meters towards middle of field facing forward
+                new Pose2d(-3.33, -4, Rotation2d.fromDegrees(50)),
                 config);
 
         var thetaController =

@@ -47,8 +47,8 @@ public class BlueRightLongDelayAuto extends SequentialCommandGroup {
                     new Pose2d(-2.5, 1, new Rotation2d(0)),
                     // Pass through these two interior waypoints, making an 's' curve path
                     List.of(),
-                    // End 8.5 meters towards middle of field facing forward
-                    new Pose2d(-6.5, -5.5, Rotation2d.fromDegrees(50)),
+                    // End 4.66 meters towards middle of field facing forward
+                    new Pose2d(-6, -4, Rotation2d.fromDegrees(50)),
                     config);
     
             var thetaController =

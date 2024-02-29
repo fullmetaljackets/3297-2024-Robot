@@ -38,8 +38,8 @@ public class BlueRightLongAuto extends SequentialCommandGroup {
                 new Pose2d(.0, 0, new Rotation2d(0)),
                 // Back up 2.5 meters
                 List.of(new Translation2d(-2.5, 1)),
-                // End 8.5 meters towards middle of field facing forward
-                new Pose2d(-6.5, -5.5, Rotation2d.fromDegrees(50)),
+                // End 4.66 meters towards middle of field facing forward
+                new Pose2d(-6, -4, Rotation2d.fromDegrees(50)),
                 config);
 
         var thetaController =

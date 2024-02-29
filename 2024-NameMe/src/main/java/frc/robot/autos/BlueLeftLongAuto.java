@@ -35,10 +35,12 @@ public class BlueLeftLongAuto extends SequentialCommandGroup {
             TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
                 new Pose2d(.0, 0, new Rotation2d(0)),
-                // Back up 0.66 meters
-                List.of(new Translation2d(-0.66, -0.33)),
-                // End 7 meters towards middle of field facing forward
-                new Pose2d(-4.33, 5, Rotation2d.fromDegrees(-50)),
+                // Back up 0.33 meters from the left side of speaker
+                List.of(new Translation2d(-0.33, 0)),
+                // List.of(new Translation2d(-0.66, -0.33)),   // Backs up too far - hits amp
+                // End 5.33 meters towards middle of field facing forward
+                new Pose2d(-3.33, 4.33, Rotation2d.fromDegrees(-50)),
+                // new Pose2d(-4.33, 5, Rotation2d.fromDegrees(-50)),  // Too long
                 config);
 
         var thetaController =

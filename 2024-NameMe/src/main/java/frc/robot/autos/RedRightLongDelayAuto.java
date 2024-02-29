@@ -37,18 +37,18 @@ public class RedRightLongDelayAuto extends SequentialCommandGroup {
                     new Pose2d(.0, 0, new Rotation2d(0)),
                     // Pass through these two interior waypoints, making an 's' curve path
                     List.of(),
-                    // Back up 0.66  meters
-                    new Pose2d(-0.5, 0.5, Rotation2d.fromDegrees(0)),
+                    // Back up 0.33  meters
+                    new Pose2d(-0.33, 0, Rotation2d.fromDegrees(0)),
                     config);
     
             Trajectory myTrajectory2 =
                 TrajectoryGenerator.generateTrajectory(
                     // Start at the origin facing the +X direction
-                    new Pose2d(-0.5, 0.5, new Rotation2d(0)),
+                    new Pose2d(-0.33, 0, Rotation2d.fromDegrees(0)),
                     // Pass through these two interior waypoints, making an 's' curve path
                     List.of(),
                     // End 6.33 meters towards middle of field facing forward
-                    new Pose2d(-4, -5, Rotation2d.fromDegrees(50)),
+                    new Pose2d(-3.33, -4, Rotation2d.fromDegrees(50)),
                     config);
     
             var thetaController =
