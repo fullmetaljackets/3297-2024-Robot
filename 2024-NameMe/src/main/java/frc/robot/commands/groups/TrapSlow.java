@@ -11,9 +11,9 @@ import frc.robot.subsystems.ShooterOne;
 import frc.robot.subsystems.ShooterTrigger;
 import frc.robot.subsystems.ShooterTwo;
 
-public class ShooterOutTrap extends ParallelCommandGroup {
+public class TrapSlow extends ParallelCommandGroup {
     
-    public ShooterOutTrap(ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo, ShooterJaws s_ShooterJaws, ShooterTrigger s_ShooterTrigger){
+    public TrapSlow (ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo, ShooterJaws s_ShooterJaws, ShooterTrigger s_ShooterTrigger){
 
         addCommands(
             //shooter motor 1&2 out
@@ -23,16 +23,16 @@ public class ShooterOutTrap extends ParallelCommandGroup {
         );
     }
 
-    public ShooterOutTrap(ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo, ShooterTrigger s_ShooterTrigger){
+    public TrapSlow(ShooterOne s_ShooterOne, ShooterTwo s_ShooterTwo, ShooterTrigger s_ShooterTrigger){
 
         addCommands(
             //shooter motor 1&2 out
             //Bottom
-            new Shooter1Out(-.75, s_ShooterOne).withTimeout(2),
+            new Shooter1Out(-.15, s_ShooterOne),
             //Top
-            new Shooter2Out(-.15, s_ShooterTwo).withTimeout(2),
-            new WaitCommand(1),
-            new TriggerOut(.1, s_ShooterTrigger).withTimeout(1)
+            new Shooter2Out(-.15, s_ShooterTwo),
+            // new WaitCommand(1),
+            new TriggerOut(.1, s_ShooterTrigger)
         );
     }
 }

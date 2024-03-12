@@ -50,6 +50,7 @@ import frc.robot.commands.groups.ShooterOutAmp;
 import frc.robot.commands.groups.ShooterOutAuto;
 import frc.robot.commands.groups.ShooterOutStop;
 import frc.robot.commands.groups.ShooterOutTrap;
+import frc.robot.commands.groups.TrapSlow;
 import frc.robot.commands.swerve.TeleopSwerve;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
@@ -237,6 +238,11 @@ public class RobotContainer {
         final JoystickButton shooterOut =new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
         shooterOut.onTrue(new ShooterOut(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterOut.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
+
+        final JoystickButton trapSlow = new JoystickButton(copilotStick, XboxController.Button.kLeftBumper.value);
+        trapSlow.onTrue(new TrapSlow(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        trapSlow.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
+
         // Floor Intake, Not Testing/Working, No Motors Yet 
         /*final JoystickButton floorIntakeNote =new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
         floorIntakeNote.onTrue(new FloorAmpIn(0.80, s_FloorIntake).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
