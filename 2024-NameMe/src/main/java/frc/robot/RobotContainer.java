@@ -285,6 +285,9 @@ public class RobotContainer {
         triggerOut.onTrue(new TriggerOut(1, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         triggerOut.onFalse(new TriggerOut(0, s_ShooterTrigger));
 
+        final JoystickButton xxxx = new JoystickButton(driveStick, XboxController.Axis.kRightTrigger.value);
+        xxxx.whileTrue(new TriggerIn(-0.25, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
         // final JoystickButton brake = new JoystickButton(driveStick, XboxController.Button.kA.value);
         // brake.onTrue(new (s_ShooterPan));
 
