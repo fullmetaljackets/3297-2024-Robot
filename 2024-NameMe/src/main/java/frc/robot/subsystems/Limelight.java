@@ -16,6 +16,7 @@ public class Limelight extends SubsystemBase {
   private NetworkTableEntry tx = null;
   private NetworkTableEntry ty = null;
   private NetworkTableEntry ta = null;
+  private double distance = 0;
 
   /** Creates a new Limelight. */
   public Limelight() {
@@ -46,13 +47,31 @@ public class Limelight extends SubsystemBase {
       tx = table.getEntry("tx");
       ty = table.getEntry("ty");
       ta = table.getEntry("ta");
+
     } catch (Exception e) {
       return;
     }
     
+/* old code
     SmartDashboard.putNumber("tY Value", x());
     SmartDashboard.putNumber("tX Value", y());
     SmartDashboard.putNumber("'tA Value", targetArea());
+ */
+
+    //my deepest apologies if this is badly written
+    //this code currently does not work, aim to fix soon
+    
+      double x = tx.getDouble(0.0);
+      double y = ty.getDouble(0.0);
+      double area = ta.getDouble(0.0);
+
+      distance = x + y;
+      SmartDashboard.putNumber("tY Value", y);
+      SmartDashboard.putNumber("tX Value", x);
+      SmartDashboard.putNumber("'tA Value", area);
+      SmartDashboard.putNumber("distance", distance);
+ 
+  
   }
 
   public NetworkTableEntry getEntry(String str) {
