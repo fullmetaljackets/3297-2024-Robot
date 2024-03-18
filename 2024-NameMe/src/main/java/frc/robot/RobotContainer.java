@@ -54,6 +54,7 @@ import frc.robot.commands.groups.TrapSlow;
 import frc.robot.commands.swerve.TeleopSwerve;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterJaws;
 import frc.robot.subsystems.ShooterOne;
 import frc.robot.subsystems.ShooterPan;
@@ -105,6 +106,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     public final Elevator s_Elevator = new Elevator();
     private final Arm s_Arm = new Arm();
+    private final Limelight s_Limelight = new Limelight();
     // private final FloorIntake s_FloorIntake = new FloorIntake();
     private final ShooterOne s_ShooterOne = new ShooterOne();
     private final ShooterTwo s_ShooterTwo = new ShooterTwo();
