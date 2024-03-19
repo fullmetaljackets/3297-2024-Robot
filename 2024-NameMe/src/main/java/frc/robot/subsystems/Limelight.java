@@ -51,38 +51,47 @@ public class Limelight extends SubsystemBase {
       return;
     }
     
-/* old code
-    SmartDashboard.putNumber("tY Value", x());
-    SmartDashboard.putNumber("tX Value", y());
-    SmartDashboard.putNumber("'tA Value", targetArea());
- */
-    
       double x = tx.getDouble(0.0);
       double y = ty.getDouble(0.0);
       double area = ta.getDouble(0.0);
-      double distance = 0;
-      boolean isAbleToShoot = false;
+      boolean isWithinRange = false;
 
-      //change these two constants for calibration
+      //change these two constants for calibration (THESE ARE IN INCHES)
       double minimumDistanceToShoot = 1;
       double maximumDistanceToShoot = 1000;
 
+      //this equation calculates distance from the limelight lens to the center of the april tag
+      //note there might be slight variance from different locations due to the limelight being off-center on the robot
+      //consider this during calibration
+      //also note all values are inches
       
-      distance = x + y;  //this is a placeholder, need to add the actual distance calculation in and our limelight location constants
+      //these are constants regarding the limelight location on the robot and apriltag locations on the field
+      double limelightMountAngleDegrees = 7.716;
+      double limelightLensHeightFromFloor = 7.375; 
+      double aprilTagHeightFromFloor = 57.125;  //this is for the center tag on the speaker
+ 
+      //calculating more angles
+      double angleToAprilTagDegrees = limelightMountAngleDegrees + y;
+      double angleToAprilTagRadians = angleToAprilTagDegrees * (3.14159 / 180.0);
 
-      if(distance < minimumDistanceToShoot || distance > maximumDistanceToShoot) {
-        isAbleToShoot = false;
+      //calculating distance to apriltag 
+      double distanceFromLimelightToAprilTag = (aprilTagHeightFromFloor - limelightLensHeightFromFloor) / Math.tan(angleToAprilTagRadians);
+      
+
+      //calculates if the distance is within our range
+      if(distanceFromLimelightToAprilTag < minimumDistanceToShoot || distanceFromLimelightToAprilTag > maximumDistanceToShoot) {
+        isWithinRange = false;
       }
       else {
-        isAbleToShoot = true;
+        isWithinRange = true;
       }
 
 
       SmartDashboard.putNumber("tY Value", y);
       SmartDashboard.putNumber("tX Value", x);
       SmartDashboard.putNumber("'tA Value", area);
-      SmartDashboard.putNumber("distance", distance);
-      SmartDashboard.putBoolean("isAbleToShoot", isAbleToShoot);
+      SmartDashboard.putNumber("distance", distanceFromLimelightToAprilTag);
+      SmartDashboard.putBoolean("isWithinRange", isWithinRange);
  
   
   }
