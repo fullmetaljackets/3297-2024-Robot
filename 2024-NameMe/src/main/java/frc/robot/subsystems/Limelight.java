@@ -16,7 +16,6 @@ public class Limelight extends SubsystemBase {
   private NetworkTableEntry tx = null;
   private NetworkTableEntry ty = null;
   private NetworkTableEntry ta = null;
-  private double distance = 0;
 
   /** Creates a new Limelight. */
   public Limelight() {
@@ -57,19 +56,33 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("tX Value", y());
     SmartDashboard.putNumber("'tA Value", targetArea());
  */
-
-    //my deepest apologies if this is badly written
-    //this code currently does not work, aim to fix soon
     
       double x = tx.getDouble(0.0);
       double y = ty.getDouble(0.0);
       double area = ta.getDouble(0.0);
+      double distance = 0;
+      boolean isAbleToShoot = false;
 
-      distance = x + y;
+      //change these two constants for calibration
+      double minimumDistanceToShoot = 1;
+      double maximumDistanceToShoot = 1000;
+
+      
+      distance = x + y;  //this is a placeholder, need to add the actual distance calculation in and our limelight location constants
+
+      if(distance < minimumDistanceToShoot || distance > maximumDistanceToShoot) {
+        isAbleToShoot = false;
+      }
+      else {
+        isAbleToShoot = true;
+      }
+
+
       SmartDashboard.putNumber("tY Value", y);
       SmartDashboard.putNumber("tX Value", x);
       SmartDashboard.putNumber("'tA Value", area);
       SmartDashboard.putNumber("distance", distance);
+      SmartDashboard.putBoolean("isAbleToShoot", isAbleToShoot);
  
   
   }
