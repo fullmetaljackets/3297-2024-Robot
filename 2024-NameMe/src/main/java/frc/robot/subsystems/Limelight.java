@@ -60,7 +60,7 @@ public class Limelight extends SubsystemBase {
       double minimumDistanceToShoot = 1;
       double maximumDistanceToShoot = 1000;
 
-      //this equation calculates distance from the limelight lens to the center of the april tag
+      //this equation calculates distance from the limelight lens to the apriltag horizontally
       //note there might be slight variance from different locations due to the limelight being off-center on the robot
       //consider this during calibration
       //also note all values are inches
@@ -77,7 +77,6 @@ public class Limelight extends SubsystemBase {
       //calculating distance to apriltag 
       double distanceFromLimelightToAprilTag = (aprilTagHeightFromFloor - limelightLensHeightFromFloor) / Math.tan(angleToAprilTagRadians);
       
-
       //calculates if the distance is within our range
       if(distanceFromLimelightToAprilTag < minimumDistanceToShoot || distanceFromLimelightToAprilTag > maximumDistanceToShoot) {
         isWithinRange = false;
@@ -86,6 +85,11 @@ public class Limelight extends SubsystemBase {
         isWithinRange = true;
       }
 
+      //sets isWithinRange to false if no apriltag is found
+      //this works because the apriltag should basically never be dead center
+      if(x == 0 && y == 0) {
+        isWithinRange = false;
+      }
 
       SmartDashboard.putNumber("tY Value", y);
       SmartDashboard.putNumber("tX Value", x);
