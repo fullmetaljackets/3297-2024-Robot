@@ -87,7 +87,7 @@ public class Limelight extends SubsystemBase {
 
       //sets isWithinRange to false if no apriltag is found
       //this works because the apriltag should basically never be dead center
-      if(x == 0 && y == 0) {
+      if(distanceFromLimelightToAprilTag > 360) {
         isWithinRange = false;
       }
 
