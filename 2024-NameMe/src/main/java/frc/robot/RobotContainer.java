@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.autos.BlueLeftLongAuto;
 import frc.robot.autos.BlueLeftLongDelayAuto;
 import frc.robot.autos.BlueLeftShortAuto;
@@ -218,6 +219,17 @@ public class RobotContainer {
         // Elevator
         final JoystickButton elevatorRaise = new JoystickButton(copilotStick, XboxController.Button.kB.value);        
         elevatorRaise.whileTrue(new ElevatorRaise(1, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
+        // new POVButton(copilotStick, 0);
+        POVButton dpadDownButton = new POVButton(copilotStick, 180);
+        dpadDownButton.whileTrue(new ElevatorLower(-1, s_Elevator));
+
+        POVButton dpadUpButton = new POVButton(copilotStick, 0);
+        dpadUpButton.whileTrue(new ElevatorRaise(1, s_Elevator));
+
+
+        // POVButton dpadDownButton = new Button(() -> driverController.getPOV() == 180);
+        // dpadDownButton.whenPressed(new MotorCommand(subsystem));
 
         final JoystickButton elevatorLower = new JoystickButton(copilotStick, XboxController.Button.kA.value);
         elevatorLower.whileTrue(new ElevatorLower(-1, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf)); 
