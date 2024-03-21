@@ -100,8 +100,8 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driveStick, robotcentric);
 
     //Speed Controls
-    private final double desiredspeed = 2;
-    private final double desiredturnspeed = desiredspeed*0.4;
+    private final double desiredspeed = 3;
+    private final double desiredturnspeed = desiredspeed*0.27; //0.4; for speed of two 
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -220,12 +220,27 @@ public class RobotContainer {
         final JoystickButton elevatorRaise = new JoystickButton(copilotStick, XboxController.Button.kB.value);        
         elevatorRaise.whileTrue(new ElevatorRaise(1, s_Elevator).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
-        // new POVButton(copilotStick, 0);
+        //Dpad down 
         POVButton dpadDownButton = new POVButton(copilotStick, 180);
         dpadDownButton.whileTrue(new ElevatorLower(-1, s_Elevator));
 
+        POVButton dpadDownButton1 = new POVButton(copilotStick, 135);
+        dpadDownButton1.whileTrue(new ElevatorLower(-1, s_Elevator));
+
+        POVButton dpadDownButton2 = new POVButton(copilotStick, 225);
+        dpadDownButton2.whileTrue(new ElevatorLower(-1, s_Elevator));
+
+        //Dpad up
         POVButton dpadUpButton = new POVButton(copilotStick, 0);
         dpadUpButton.whileTrue(new ElevatorRaise(1, s_Elevator));
+
+        POVButton dpadUpButton1 = new POVButton(copilotStick, 45);
+        dpadUpButton1.whileTrue(new ElevatorRaise(1, s_Elevator));
+
+        POVButton dpadUpButton2 = new POVButton(copilotStick, 315);
+        dpadUpButton2.whileTrue(new ElevatorRaise(1, s_Elevator));
+
+
 
 
         // POVButton dpadDownButton = new Button(() -> driverController.getPOV() == 180);
