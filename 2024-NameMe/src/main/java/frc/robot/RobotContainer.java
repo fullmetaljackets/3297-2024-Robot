@@ -49,9 +49,9 @@ import frc.robot.commands.groups.ShooterInStop;
 import frc.robot.commands.groups.ShooterOut;
 import frc.robot.commands.groups.ShooterOutAmp;
 import frc.robot.commands.groups.ShooterOutAuto;
+import frc.robot.commands.groups.ShooterOutSlow;
 import frc.robot.commands.groups.ShooterOutStop;
 import frc.robot.commands.groups.ShooterOutTrap;
-import frc.robot.commands.groups.TrapSlow;
 import frc.robot.commands.swerve.TeleopSwerve;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
@@ -99,9 +99,13 @@ public class RobotContainer {
     private final JoystickButton zeroGyro3 = new JoystickButton(driveStick, j_zerogyro);
     private final JoystickButton robotCentric = new JoystickButton(driveStick, robotcentric);
 
-    //Speed Controls
+    //Speed Controls for antony
     private final double desiredspeed = 3;
     private final double desiredturnspeed = desiredspeed*0.27; //0.4; for speed of two 
+
+    //Speed Controls for cody
+    // private final double desiredspeed = 2;
+    // private final double desiredturnspeed = desiredspeed*0.4; //0.27; for speed of three
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -149,7 +153,7 @@ public class RobotContainer {
                     () -> Math.pow(-desiredspeed*joystick.getRawAxis(j_strafeAxis), 3), 
                     () -> Math.pow(-desiredspeed*joystick.getRawAxis(j_translationAxis), 3),
                     () -> desiredturnspeed*joystick.getRawAxis(j_rotationAxis), 
-                    () -> robotCentric.getAsBoolean()                
+                    () -> robotCentric.getAsBoolean()
                 )
             );
         } else {
@@ -268,9 +272,8 @@ public class RobotContainer {
         shooterOut.onTrue(new ShooterOut(s_ShooterOne, s_ShooterTwo).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
         shooterOut.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
 
-        final JoystickButton trapSlow = new JoystickButton(copilotStick, XboxController.Button.kLeftBumper.value);
-        trapSlow.onTrue(new TrapSlow(s_ShooterOne, s_ShooterTwo, s_ShooterTrigger).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-        trapSlow.onFalse(new ShooterOutStop(s_ShooterOne, s_ShooterTwo));
+        final JoystickButton shooterOutSlow = new JoystickButton(copilotStick, XboxController.Button.kLeftBumper.value);
+        shooterOutSlow.whileTrue(new ShooterOutSlow(s_ShooterOne, s_ShooterTwo));
 
         // Floor Intake, Not Testing/Working, No Motors Yet 
         /*final JoystickButton floorIntakeNote =new JoystickButton(copilotStick, XboxController.Button.kRightBumper.value);
