@@ -92,7 +92,7 @@ public class BlueLeftLongDelayAuto extends SequentialCommandGroup {
             // new WaitCommand (1),
             // Move to the side and wait 
             swerveControllerCommand1,
-            new WaitCommand (6),
+            new WaitCommand (8),
             // Move to final position
             swerveControllerCommand2,
             new ZeroPigeon(s_Swerve).withTimeout(0.1)
